@@ -15,23 +15,24 @@ return [
         [
             // These are for internal error handling and exceptions
             "mount" => null,
-            "file" => __DIR__ . "/route/internal.php",
+            "file"  => __DIR__ . "/route/internal.php",
         ],
         [
             // For debugging and development details on Anax
             "mount" => "debug",
-            "file" => __DIR__ . "/route/debug.php",
+            "file"  => __DIR__ . "/route/debug.php",
         ],
         [
             // To read flat file content in Markdown from content/
             "mount" => null,
-            "file" => __DIR__ . "/route/flat-file-content.php",
+            "sort"  => 998,
+            "file"  => __DIR__ . "/route/flat-file-content.php",
         ],
         [
             // Keep this last since its a catch all
             "mount" => null,
-            "sort" => 999,
-            "file" => __DIR__ . "/route/404.php",
+            "sort"  => 999,
+            "file"  => __DIR__ . "/route/404.php",
         ],
     ],
 

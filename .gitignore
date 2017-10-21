@@ -2,5 +2,6 @@
 /build
 /vendor
 /cache
+/config/database.php
 memory::
 composer.lock

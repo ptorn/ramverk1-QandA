@@ -80,7 +80,7 @@ return [
         "pageRender" => [
             "shared" => true,
             "callback" => function () {
-                $obj = new \Anax\Page\PageRender();
+                $obj = new \Peto16\Utils\Utils();
                 $obj->setDI($this);
                 return $obj;
             }
@@ -107,6 +107,31 @@ return [
                 $obj = new \Anax\Page\FlatFileContentController();
                 $obj->setDI($this);
                 return $obj;
+            }
+        ],
+        "db" => [
+            "shared" => true,
+            "callback" => function () {
+                $obj = new \Anax\Database\DatabaseQueryBuilder();
+                $obj->configure("database.php");
+                return $obj;
+            }
+        ],
+        "utils" => [
+            "shared" => true,
+            "callback" => function () {
+                $utils = new Peto16\Utils\Utils();
+                $utils->setDI($this);
+                return $utils;
+            }
+        ],
+        "navbar" => [
+            "shared" => true,
+            "callback" => function () {
+                $navbar = new \Peto16\Navbar\Navbar();
+                $navbar->configure("navbar.php");
+                $navbar->setDI($this);
+                return $navbar;
             }
         ],
     ],
