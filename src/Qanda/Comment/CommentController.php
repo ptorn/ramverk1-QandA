@@ -26,10 +26,10 @@ class CommentController implements InjectionAwareInterface
      */
     public function init()
     {
-        $this->commentService = $this->di->get("commentService");
-        $this->pageRender = $this->di->get("pageRender");
-        $this->view = $this->di->get("view");
-        $this->utils = $this->di->get("utils");
+        $this->commentService   = $this->di->get("commentService");
+        $this->pageRender       = $this->di->get("pageRender");
+        $this->view             = $this->di->get("view");
+        $this->utils            = $this->di->get("utils");
     }
 
 
@@ -40,10 +40,10 @@ class CommentController implements InjectionAwareInterface
      * @param int       $commentId
      * @return void
      */
-    public function delComment($commentId)
+    public function delComment($questionId, $awnserId, $commentId)
     {
         $this->commentService->delComment($commentId);
-        $this->utils->redirect("comments");
+        $this->utils->redirect("question/" . $questionId . "/awnser/" . $awnserId);
     }
 
 
@@ -55,10 +55,10 @@ class CommentController implements InjectionAwareInterface
      *
      * @return void
      */
-    public function getPostEditComment($id)
+    public function getPostEditComment($questionId, $awnserId, $commentId)
     {
-        $title      = "Redigera kommentar";
-        $form       = new UpdateCommentForm($this->di, $id);
+        $title  = "Redigera kommentar";
+        $form   = new UpdateCommentForm($this->di, $questionId, $awnserId, $commentId);
 
         $form->check();
 
@@ -67,31 +67,6 @@ class CommentController implements InjectionAwareInterface
         ];
 
         $this->view->add("default2/article", $data);
-
         $this->pageRender->renderPage(["title" => $title]);
     }
-
-
-
-    // /**
-    //  * Get all comments to display on page.
-    //  *
-    //  * @return void
-    //  */
-    // public function getCommentsPage()
-    // {
-    //     $comments = $this->commentService->getAllComments();
-    //     $this->view->add("comment/comment-page", ["comments" => $comments], "comments");
-    //     $form       = new CreateCommentForm($this->di);
-    //
-    //     $form->check();
-    //
-    //     $data = [
-    //         "form" => $form->getHTML(),
-    //     ];
-    //
-    //     if ($this->di->get("userService")->getCurrentLoggedInUser()) {
-    //         $this->view->add("comment/crud/create", $data, "comments");
-    //     }
-    // }
 }

@@ -5,11 +5,6 @@ use \Anax\DI\InjectionAwareInterface;
 use \Anax\DI\InjectionAwareTrait;
 use \Peto16\Qanda\User\HTMLForm\SelectUserForm;
 
-// use \Peto16\Qanda\Question\HTMLForm\CreateQuestionForm;
-// use \Peto16\Qanda\Question\HTMLForm\UpdateQuestionForm;
-// use \Peto16\Qanda\Awnser\HTMLForm\CreateAwnserForm;
-
-
 /**
  * Controller for User
  */
@@ -23,7 +18,7 @@ class UserController implements InjectionAwareInterface
     private $awnserService;
     private $pageRender;
     private $view;
-
+    private $qandaUserService;
 
 
     /**
@@ -33,23 +28,24 @@ class UserController implements InjectionAwareInterface
      */
     public function init()
     {
-        $this->questionService = $this->di->get("questionService");
-        $this->awnserService = $this->di->get("awnserService");
-        $this->comService = $this->di->get("commentService");
-        $this->userService = $this->di->get("userService");
+        $this->questionService  = $this->di->get("questionService");
+        $this->awnserService    = $this->di->get("awnserService");
+        $this->comService       = $this->di->get("commentService");
+        $this->userService      = $this->di->get("userService");
 
-        $this->pageRender = $this->di->get("pageRender");
-        $this->view = $this->di->get("view");
+        $this->pageRender       = $this->di->get("pageRender");
+        $this->view             = $this->di->get("view");
 
-        $this->utils = $this->di->get("utils");
+        $this->utils            = $this->di->get("utils");
+        $this->qandaUserService = new \Peto16\Qanda\User\UserService();
     }
 
 
     public function getPostListUsersPage()
     {
-        $title      = "Lista användare";
-        $users = $this->userService->findAllUsers();
-        $form       = new SelectUserForm($this->di);
+        $title  = "Lista användare";
+        $users  = $this->userService->findAllUsers();
+        $form   = new SelectUserForm($this->di);
 
         $form->check();
 
@@ -67,18 +63,17 @@ class UserController implements InjectionAwareInterface
 
     public function getUserPage($userId)
     {
-        $user = $this->userService->getUserByField("id", $userId);
-        $questions = $this->questionService->getAllQuestionsByField("userId = ?", $userId);
-        $awnsers = $this->awnserService->getAllAwnsersByField("userId = ?", $userId);
-        $comments = $this->comService->getAllCommentsByField("userId = ?", $userId);
+        $user       = $this->userService->getUserByField("id", $userId);
+        $questions  = $this->questionService->getAllQuestionsByField("userId = ?", $userId);
+        $awnsers    = $this->awnserService->getAllAwnsersByField("userId = ?", $userId);
+        $comments   = $this->comService->getAllCommentsByField("userId = ?", $userId);
         $title      = "Information om " . $user->username;
-        $form       = new SelectUserForm($this->di);
 
         $data = [
             "user"      => $user,
-            "questions" => $questions,
-            "awnsers"   => $awnsers,
-            "comments"  => $comments
+            "questions" => $this->qandaUserService->filterDeleted($questions),
+            "awnsers"   => $this->qandaUserService->filterDeleted($awnsers),
+            "comments"  => $this->qandaUserService->filterDeleted($comments)
         ];
 
         $this->view->add("qanda/user/user-info", $data);

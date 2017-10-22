@@ -8,12 +8,6 @@ return [
             "path" => "{id:digit}",
             "callable" => ["awnserController", "getPostAwnserPage"],
         ],
-        // [
-        //     "info" => "Question by id",
-        //     "requestMethod" => "get|post",
-        //     "path" => "{id:digit}",
-        //     "callable" => ["questionController", "getQuestionByIdPage"],
-        // ],
         [
             "info" => "Delete awnser",
             "requestMethod" => "get",

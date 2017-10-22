@@ -21,10 +21,10 @@ class CommentService
      */
     public function __construct($di)
     {
-        $this->comStorage = new CommentStorage();
+        $this->comStorage   = new CommentStorage();
         $this->comStorage->setDb($di->get("db"));
-        $this->session = $di->get("session");
-        $this->userService = $di->get("userService");
+        $this->session      = $di->get("session");
+        $this->userService  = $di->get("userService");
     }
 
 
@@ -95,11 +95,11 @@ class CommentService
 
         $allComments = $this->comStorage->readComment();
         return array_map(function ($item) use ($userId) {
-            $item->owner = false;
-            $item->userAdmin = false;
-            $item->gravatar = $this->userService->generateGravatarUrl($item->email);
+            $item->owner        = false;
+            $item->userAdmin    = false;
+            $item->gravatar     = $this->userService->generateGravatarUrl($item->email);
             if ($item->userId === $userId) {
-                $item->owner = true;
+                $item->owner    = true;
             }
             if ($this->userService->validLoggedInAdmin()) {
                 $item->userAdmin = true;
@@ -135,9 +135,9 @@ class CommentService
      */
     public function getCommentByField($field, $data)
     {
-        $comment = new Comment();
-        $commentVarArray = get_object_vars($comment);
-        $commentData = $this->comStorage->getCommentByField($field, $data);
+        $comment            = new Comment();
+        $commentVarArray    = get_object_vars($comment);
+        $commentData        = $this->comStorage->getCommentByField($field, $data);
 
         $arrayKeys = array_keys($commentVarArray);
         foreach ($arrayKeys as $key) {
@@ -150,7 +150,7 @@ class CommentService
 
     public function getComByAwnserId($awnserId)
     {
-        $user = $this->userService->getCurrentLoggedInUser();
+        $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
 
         if ($user) {
@@ -158,11 +158,11 @@ class CommentService
         }
         $comments = $this->comStorage->getAllByAwnserId($awnserId);
         return array_map(function ($item) use ($userId) {
-            $item->owner = false;
-            $item->userAdmin = false;
+            $item->owner        = false;
+            $item->userAdmin    = false;
             $item->gravatar = $this->userService->generateGravatarUrl($item->email);
             if ($item->userId === $userId) {
-                $item->owner = true;
+                $item->owner    = true;
             }
             if ($this->userService->validLoggedInAdmin()) {
                 $item->userAdmin = true;

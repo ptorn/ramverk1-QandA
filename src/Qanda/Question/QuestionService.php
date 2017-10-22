@@ -12,7 +12,7 @@ class QuestionService
     private $session;
     private $userService;
     private $comService;
-    private $awnser;
+    // private $awnser;
 
 
     /**
@@ -22,14 +22,12 @@ class QuestionService
      */
     public function __construct($di)
     {
-        $this->queStorage = new QuestionStorage();
+        $this->queStorage       = new QuestionStorage();
         $this->queStorage->setDb($di->get("db"));
-
-        $this->comService = $di->get("commentService");
-        $this->awnserService = $di->get("awnserService");
-
-        $this->session = $di->get("session");
-        $this->userService = $di->get("userService");
+        $this->comService       = $di->get("commentService");
+        $this->awnserService    = $di->get("awnserService");
+        $this->session          = $di->get("session");
+        $this->userService      = $di->get("userService");
     }
 
 
@@ -91,7 +89,7 @@ class QuestionService
      */
     public function getAllQuestions()
     {
-        $user = $this->userService->getCurrentLoggedInUser();
+        $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
 
         if ($user) {
@@ -100,11 +98,11 @@ class QuestionService
 
         $allQuestions = $this->queStorage->readQuestion();
         return array_map(function ($item) use ($userId) {
-            $item->owner = false;
-            $item->userAdmin = false;
-            $item->gravatar = $this->userService->generateGravatarUrl($item->email);
+            $item->owner        = false;
+            $item->userAdmin    = false;
+            $item->gravatar     = $this->userService->generateGravatarUrl($item->email);
             if ($item->userId === $userId) {
-                $item->owner = true;
+                $item->owner    = true;
             }
             if ($this->userService->validLoggedInAdmin()) {
                 $item->userAdmin = true;
@@ -123,7 +121,7 @@ class QuestionService
      */
     public function getQuestion($id)
     {
-        $user = $this->userService->getCurrentLoggedInUser();
+        $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
 
         if ($user) {
@@ -131,11 +129,11 @@ class QuestionService
         }
 
         return array_map(function ($item) use ($userId) {
-            $item->owner = false;
-            $item->userAdmin = false;
-            $item->gravatar = $this->userService->generateGravatarUrl($item->email);
+            $item->owner        = false;
+            $item->userAdmin    = false;
+            $item->gravatar     = $this->userService->generateGravatarUrl($item->email);
             if ($item->userId === $userId) {
-                $item->owner = true;
+                $item->owner    = true;
             }
             if ($this->userService->validLoggedInAdmin()) {
                 $item->userAdmin = true;
@@ -158,9 +156,9 @@ class QuestionService
      */
     public function getQuestionByField($field, $data)
     {
-        $question = new Question();
-        $questionVarArray = get_object_vars($question);
-        $questionData = $this->queStorage->getQuestionByField($field, $data);
+        $question           = new Question();
+        $questionVarArray   = get_object_vars($question);
+        $questionData       = $this->queStorage->getQuestionByField($field, $data);
 
         $arrayKeys = array_keys($questionVarArray);
         foreach ($arrayKeys as $key) {

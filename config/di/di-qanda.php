@@ -44,6 +44,15 @@ return [
                 return $commentService;
             }
         ],
+        "commentController" => [
+            "shared" => true,
+            "callback" => function () {
+                $commentController = new \Peto16\Qanda\Comment\CommentController();
+                $commentController->setDI($this);
+                $commentController->init();
+                return $commentController;
+            }
+        ],
         "qandaUserController" => [
             "shared" => true,
             "callback" => function () {
@@ -51,6 +60,15 @@ return [
                 $qandaUserController->setDI($this);
                 $qandaUserController->init();
                 return $qandaUserController;
+            }
+        ],
+        "tagController" => [
+            "shared" => true,
+            "callback" => function () {
+                $tagController = new \Peto16\Qanda\Tag\TagController();
+                $tagController->setDI($this);
+                $tagController->init();
+                return $tagController;
             }
         ],
     ],

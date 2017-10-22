@@ -28,10 +28,10 @@ class QuestionController implements InjectionAwareInterface
      */
     public function init()
     {
-        $this->questionService = $this->di->get("questionService");
-        $this->pageRender = $this->di->get("pageRender");
-        $this->view = $this->di->get("view");
-        $this->utils = $this->di->get("utils");
+        $this->questionService  = $this->di->get("questionService");
+        $this->pageRender       = $this->di->get("pageRender");
+        $this->view             = $this->di->get("view");
+        $this->utils            = $this->di->get("utils");
     }
 
 
@@ -59,8 +59,8 @@ class QuestionController implements InjectionAwareInterface
      */
     public function getPostEditQuestion($id)
     {
-        $title      = "Redigera fråga";
-        $form       = new UpdateQuestionForm($this->di, $id);
+        $title  = "Redigera fråga";
+        $form   = new UpdateQuestionForm($this->di, $id);
 
         $form->check();
 
@@ -69,7 +69,6 @@ class QuestionController implements InjectionAwareInterface
         ];
 
         $this->view->add("default2/article", $data);
-
         $this->pageRender->renderPage(["title" => $title]);
     }
 
@@ -82,13 +81,15 @@ class QuestionController implements InjectionAwareInterface
      */
     public function getPostQuestionsPage()
     {
-        $title = "Frågor";
         $questions = $this->questionService->getAllQuestions();
         foreach ($questions as $question) {
+            if ($question->deleted !== null) {
+                continue;
+            }
             $this->view->add("qanda/question/question", ["question" => $question], "main");
         }
-
-        $form       = new CreateQuestionForm($this->di);
+        $title  = "Frågor";
+        $form   = new CreateQuestionForm($this->di);
 
         $form->check();
 
@@ -111,9 +112,9 @@ class QuestionController implements InjectionAwareInterface
      */
     public function getPostQuestionByIdPage($id)
     {
-        $title = "Frågor";
-        $question = $this->questionService->getQuestion($id);
-        $awnsers = $this->questionService->getAwnserByQuestionId($id);
+        $title      = "Frågor";
+        $question   = $this->questionService->getQuestion($id);
+        $awnsers    = $this->questionService->getAwnserByQuestionId($id);
 
         $this->view->add("qanda/question/question", ["question" => $question[0]], "main");
 
@@ -126,7 +127,7 @@ class QuestionController implements InjectionAwareInterface
                 "questionIdUrl" => $id
             ], "main");
         }
-        $form       = new CreateAwnserForm($this->di, $id);
+        $form = new CreateAwnserForm($this->di, $id);
 
         $form->check();
 

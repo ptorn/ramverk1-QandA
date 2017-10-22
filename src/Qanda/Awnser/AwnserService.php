@@ -11,7 +11,7 @@ class AwnserService
     private $awnserStorage;
     private $session;
     private $userService;
-    private $comService;
+    // private $comService;
 
 
     /**
@@ -23,10 +23,8 @@ class AwnserService
     {
         $this->awnserStorage = new AwnserStorage();
         $this->awnserStorage->setDb($di->get("db"));
-
-        // $this->comService = $di->get("commentService");
-        $this->session = $di->get("session");
-        $this->userService = $di->get("userService");
+        $this->session      = $di->get("session");
+        $this->userService  = $di->get("userService");
     }
 
 
@@ -88,7 +86,7 @@ class AwnserService
      */
     public function getAllAwnsers()
     {
-        $user = $this->userService->getCurrentLoggedInUser();
+        $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
 
         if ($user) {
@@ -120,7 +118,7 @@ class AwnserService
      */
     public function getAwnser($id)
     {
-        $user = $this->userService->getCurrentLoggedInUser();
+        $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
 
         if ($user) {
@@ -128,11 +126,11 @@ class AwnserService
         }
 
         return array_map(function ($item) use ($userId) {
-            $item->owner = false;
-            $item->userAdmin = false;
-            $item->gravatar = $this->userService->generateGravatarUrl($item->email);
+            $item->owner        = false;
+            $item->userAdmin    = false;
+            $item->gravatar     = $this->userService->generateGravatarUrl($item->email);
             if ($item->userId === $userId) {
-                $item->owner = true;
+                $item->owner    = true;
             }
             if ($this->userService->validLoggedInAdmin()) {
                 $item->userAdmin = true;
@@ -155,9 +153,9 @@ class AwnserService
      */
     public function getAwnserByField($field, $data)
     {
-        $awnser = new Awnser();
+        $awnser         = new Awnser();
         $awnserVarArray = get_object_vars($awnser);
-        $awnserData = $this->awnserStorage->getAwnserByField($field, $data);
+        $awnserData     = $this->awnserStorage->getAwnserByField($field, $data);
 
         $arrayKeys = array_keys($awnserVarArray);
         foreach ($arrayKeys as $key) {
@@ -169,7 +167,7 @@ class AwnserService
 
     public function getAwnserByQuestionId($questionId)
     {
-        $user = $this->userService->getCurrentLoggedInUser();
+        $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
 
         if ($user) {
@@ -177,11 +175,11 @@ class AwnserService
         }
         $awnsers = $this->awnserStorage->getAllByQuestionId($questionId);
         return array_map(function ($item) use ($userId) {
-            $item->owner = false;
-            $item->userAdmin = false;
-            $item->gravatar = $this->userService->generateGravatarUrl($item->email);
+            $item->owner        = false;
+            $item->userAdmin    = false;
+            $item->gravatar     = $this->userService->generateGravatarUrl($item->email);
             if ($item->userId === $userId) {
-                $item->owner = true;
+                $item->owner    = true;
             }
             if ($this->userService->validLoggedInAdmin()) {
                 $item->userAdmin = true;

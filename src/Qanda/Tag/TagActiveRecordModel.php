@@ -1,23 +1,19 @@
 <?php
 
-namespace Peto16\Qanda\Awnser;
+namespace Peto16\Qanda\Tag;
 
-use \Peto16\Qanda\Awnser\AwnserStorageInterface;
+use \Peto16\Qanda\Tag\TagStorageInterface;
 use \Anax\Database\ActiveRecordModel;
 
 /**
  * Class to communicate with the Database
  */
-class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorageInterface
+class TagActiveRecordModel extends ActiveRecordModel implements AwnserStorageInterface
 {
     protected $tableName = "QandA_Awnser";
 
     public $id;
-    public $userId;
-    public $title;
-    public $content;
-    public $created;
-    public $updated;
+    public $name;
 
 
 
