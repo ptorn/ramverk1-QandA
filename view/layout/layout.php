@@ -39,7 +39,7 @@
                         <main id="main" class="col-xs-12 col-md-9 main mb-20">
                     <?php else : ?>
                         <main id="main" class="col-xs-12 col-md-12 main mb-20">
-                    <?php endif ; ?>
+                    <?php endif; ?>
                         <?php $this->renderRegion("main") ?>
                         <?php if ($this->regionHasContent("main")) : ?>
                             <?php $this->renderRegion("comments") ?>

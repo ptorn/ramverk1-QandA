@@ -49,7 +49,6 @@ class TagController implements InjectionAwareInterface
 
     public function getQuestionsToTagPage($tagId)
     {
-        $questions = [];
         $tagToQuestions = $this->tagService->getAllQuestionsToTag($tagId);
         foreach ($tagToQuestions as $item) {
             $question = $this->queService->getQuestion($item->questionId);

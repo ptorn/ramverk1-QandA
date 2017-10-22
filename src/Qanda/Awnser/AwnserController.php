@@ -7,7 +7,6 @@ use \Peto16\Qanda\Awnser\HTMLForm\CreateAwnserForm;
 use \Peto16\Qanda\Awnser\HTMLForm\UpdateAwnserForm;
 use \Peto16\Qanda\Comment\HTMLForm\CreateCommentForm;
 
-
 /**
  * Controller for Awnser
  */
@@ -19,6 +18,8 @@ class AwnserController implements InjectionAwareInterface
     private $commentService;
     private $pageRender;
     private $view;
+    private $utils;
+    private $textfilter;
 
 
 
@@ -34,6 +35,7 @@ class AwnserController implements InjectionAwareInterface
         $this->pageRender       = $this->di->get("pageRender");
         $this->view             = $this->di->get("view");
         $this->utils            = $this->di->get("utils");
+        $this->textfilter       = $this->di->get("textfilter");
     }
 
 
@@ -79,18 +81,44 @@ class AwnserController implements InjectionAwareInterface
     public function getPostAwnserPage($questionId, $awnserId)
     {
         $title  = "Svar";
-        $awnser = $this->awnserService->getAwnser($awnserId);
-        $this->view->add("qanda/awnser/awnser", ["awnser" => $awnser[0]], "main");
+        $awnser = $this->awnserService->getAwnser($awnserId)[0];
 
+        // Awnser escape and parse markdown
+        $awnser->content = $this->textfilter->parse(
+            htmlspecialchars($awnser->content),
+            ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+        )->text;
+
+        $awnser->title      = htmlspecialchars($awnser->title);
+        $awnser->firstname  = htmlspecialchars($awnser->firstname);
+        $awnser->lastname   = htmlspecialchars($awnser->lastname);
+
+        $this->view->add("qanda/awnser/awnser", [
+            "awnser"        => $awnser,
+            "questionIdUrl" => htmlspecialchars($questionId),
+        ], "main");
+
+        // Comments
         $comments = $this->commentService->getComByAwnserId($questionId);
         foreach ($comments as $comment) {
             if ($comment->deleted !== null) {
                 continue;
             }
+
+            // Parse markdown
+            $comment->content = $this->textfilter->parse(
+                htmlspecialchars($comment->content),
+                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+            )->text;
+
+            $comment->title     = htmlspecialchars($comment->title);
+            $comment->firstname = htmlspecialchars($comment->firstname);
+            $comment->lastname  = htmlspecialchars($comment->lastname);
+
             $this->di->get("view")->add("qanda/comment/comment", [
                 "comment" => $comment,
-                "questionIdUrl" => $questionId,
-                "awnserIdUrl" => $awnserId
+                "questionIdUrl" => htmlspecialchars($questionId),
+                "awnserIdUrl" => htmlspecialchars($awnserId)
 
             ], "main");
         }

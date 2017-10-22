@@ -4,17 +4,17 @@ $url = $this->di->get("url");
 <div class="awnser-post" style="margin-left:50px;">
     <h2>
         <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnser->id) ?>">
-            <?= htmlentities($awnser->title); ?>
+            <?= $awnser->title; ?>
         </a>
     </h2>
     <div class="awnser-content">
-        <?= htmlentities($awnser->content); ?>
+        <?= $awnser->content; ?>
     </div>
     <div class="gravatar">
-        <img src="<?= htmlentities($awnser->gravatar); ?>">
+        <img src="<?= $awnser->gravatar; ?>">
     </div>
     <div class="author">
-        Skriven av: <?= htmlentities($awnser->firstname) . " " . htmlentities($awnser->lastname); ?>
+        Skriven av: <?= $awnser->firstname . " " . $awnser->lastname; ?>
     </div>
     <?php if ($awnser->owner || $awnser->userAdmin) : ?>
     <div class="edit">
@@ -25,5 +25,5 @@ $url = $this->di->get("url");
             Delete
         </a>
     </div>
-    <?php endif ; ?>
+    <?php endif; ?>
 </div>

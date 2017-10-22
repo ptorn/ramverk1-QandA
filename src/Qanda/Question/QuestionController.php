@@ -7,7 +7,6 @@ use \Peto16\Qanda\Question\HTMLForm\CreateQuestionForm;
 use \Peto16\Qanda\Question\HTMLForm\UpdateQuestionForm;
 use \Peto16\Qanda\Awnser\HTMLForm\CreateAwnserForm;
 
-
 /**
  * Controller for Question
  */
@@ -18,6 +17,7 @@ class QuestionController implements InjectionAwareInterface
     private $questionService;
     private $pageRender;
     private $view;
+    private $textfilter;
 
 
 
@@ -32,6 +32,8 @@ class QuestionController implements InjectionAwareInterface
         $this->pageRender       = $this->di->get("pageRender");
         $this->view             = $this->di->get("view");
         $this->utils            = $this->di->get("utils");
+        $this->textfilter       = $this->di->get("textfilter");
+
     }
 
 
@@ -86,6 +88,15 @@ class QuestionController implements InjectionAwareInterface
             if ($question->deleted !== null) {
                 continue;
             }
+            $question->content = $this->textfilter->parse(
+                htmlspecialchars($question->content),
+                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+            )->text;
+
+            $question->title        = htmlspecialchars($question->title);
+            $question->firstname    = htmlspecialchars($question->firstname);
+            $question->lastname     = htmlspecialchars($question->lastname);
+
             $this->view->add("qanda/question/question", ["question" => $question], "main");
         }
         $title  = "Frågor";
@@ -116,15 +127,33 @@ class QuestionController implements InjectionAwareInterface
         $question   = $this->questionService->getQuestion($id);
         $awnsers    = $this->questionService->getAwnserByQuestionId($id);
 
+        // Escape question and parse markdown
+        $question->content = $this->textfilter->parse(
+            htmlspecialchars($question->content),
+            ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+        )->text;
+
+        $question->title        = htmlspecialchars($question->title);
+        $question->firstname    = htmlspecialchars($question->firstname);
+        $question->lastname     = htmlspecialchars($question->lastname);
         $this->view->add("qanda/question/question", ["question" => $question], "main");
 
         foreach ($awnsers as $awnser) {
             if ($awnser->deleted !== null) {
                 continue;
             }
+            $awnser->content = $this->textfilter->parse(
+                htmlspecialchars($awnser->content),
+                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+            )->text;
+
+            $awnser->title      = htmlspecialchars($awnser->title);
+            $awnser->firstname  = htmlspecialchars($awnser->firstname);
+            $awnser->lastname   = htmlspecialchars($awnser->lastname);
+
             $this->view->add("qanda/awnser/awnser", [
-                "awnser" => $awnser,
-                "questionIdUrl" => $id
+                "awnser"        => $awnser,
+                "questionIdUrl" => htmlspecialchars($id)
             ], "main");
         }
         $form = new CreateAwnserForm($this->di, $id);

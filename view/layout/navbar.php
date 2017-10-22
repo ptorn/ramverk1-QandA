@@ -43,7 +43,7 @@ $routes = $di->get("navbar")->routes();
                 >
                     <i class="fa fa-<?= $route['icon'] ?>"></i> <?= $route['title'] ?>
                 </a>
-            <?php endif ; ?>
+            <?php endif; ?>
 
                 <!-- Submenu -->
                 <?php if (array_key_exists("submenu", $route)) : ?>
@@ -60,7 +60,7 @@ $routes = $di->get("navbar")->routes();
                     </li>
                     <?php endforeach; ?>
                 </ul>
-                <?php endif ; ?>
+                <?php endif; ?>
             </li>
             <?php endforeach; ?>
         </ul>

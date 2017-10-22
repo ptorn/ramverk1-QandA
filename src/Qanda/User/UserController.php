@@ -37,7 +37,7 @@ class UserController implements InjectionAwareInterface
         $this->view             = $this->di->get("view");
 
         $this->utils            = $this->di->get("utils");
-        $this->qandaUserService = new \Peto16\Qanda\User\UserService();
+        $this->qandaUserService = $this->di->get("qandaUserService");
     }
 
 
@@ -70,10 +70,12 @@ class UserController implements InjectionAwareInterface
         $title      = "Information om " . $user->username;
 
         $data = [
-            "user"      => $user,
-            "questions" => $this->qandaUserService->filterDeleted($questions),
-            "awnsers"   => $this->qandaUserService->filterDeleted($awnsers),
-            "comments"  => $this->qandaUserService->filterDeleted($comments)
+            "user"          => $user,
+            "userPoints"    => $this->qandaUserService->calculateUserScore($userId),
+            "gravatarUrl"   => $this->userService->generateGravatarUrl($user->email),
+            "questions"     => $this->qandaUserService->filterDeleted($questions),
+            "awnsers"       => $this->qandaUserService->filterDeleted($awnsers),
+            "comments"      => $this->qandaUserService->filterDeleted($comments)
         ];
 
         $this->view->add("qanda/user/user-info", $data);

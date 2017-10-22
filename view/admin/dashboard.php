@@ -6,7 +6,7 @@ $editUrl = url("user/update/$user->id");
 $logoutUrl = url("user/logout");
 ?>
 <h1>Welcome to the Dashboard</h1>
-<p>Du är inloggad som <?= $user->firstname . " " . $user->lastname ; ?></p>
+<p>Du är inloggad som <?= $user->firstname . " " . $user->lastname; ?></p>
 <img src="<?= $gravatarUrl; ?>">
 <div class="User-info">
     <span>Förnamn: </span><?= $user->firstname; ?><br>

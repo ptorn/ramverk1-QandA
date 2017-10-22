@@ -2,7 +2,7 @@
 $url = $this->di->get("url");
 ?>
 <?php if (isset($result)) : ?>
-    <div class="notice"><?= $result ; ?></div>
+    <div class="notice"><?= $result; ?></div>
 <?php endif ; ?>
 <?php foreach ($questions as $question) : ?>
     <?php if ($question->deleted === null) : ?>
@@ -30,7 +30,7 @@ $url = $this->di->get("url");
                     Delete
                 </a>
             </div>
-            <?php endif ; ?>
+            <?php endif; ?>
         </div>
-    <?php endif ; ?>
-<?php endforeach ; ?>
+    <?php endif; ?>
+<?php endforeach; ?>

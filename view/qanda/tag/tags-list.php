@@ -8,4 +8,4 @@ $url = $this->di->get("url");
         <?= $tag->name ?>
     </a>
 </div>
-<?php endforeach ; ?>
+<?php endforeach; ?>
