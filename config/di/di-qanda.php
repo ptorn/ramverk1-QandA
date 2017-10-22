@@ -71,5 +71,12 @@ return [
                 return $tagController;
             }
         ],
+        "tagService" => [
+            "shared" => true,
+            "callback" => function () {
+                $tagService = new \Peto16\Qanda\Tag\TagService($this);
+                return $tagService;
+            }
+        ],
     ],
 ];

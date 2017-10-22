@@ -5,6 +5,8 @@ namespace Peto16\Qanda\Question\HTMLForm;
 use \Anax\HTMLForm\FormModel;
 use \Anax\DI\DIInterface;
 use \Peto16\Qanda\Question\Question;
+use \Peto16\Qanda\Tag\Tag;
+use \Peto16\Qanda\Tag\TagToQuestion;
 
 /**
  * Example of FormModel implementation.
@@ -36,6 +38,7 @@ class CreateQuestionForm extends FormModel
                 ],
 
                 "tags" => [
+                    "description" => "Kommaseparerad lista",
                     "label"       => "Taggar",
                     "type"        => "text",
                 ],
@@ -66,7 +69,21 @@ class CreateQuestionForm extends FormModel
         $question->content = $this->form->value("content");
 
         // Save to database
-        $this->di->get("questionService")->addQuestion($question);
+        $questionId = $this->di->get("questionService")->addQuestion($question);
+
+        $tags = explode(",", $this->form->value("tags"));
+        foreach ($tags as $tag) {
+            if ($tag === "") {
+                continue;
+            }
+            $newTag = new Tag();
+            $newTag->name = trim($tag);
+            $tagId = $this->di->get("tagService")->addTag($newTag);
+            $tagToQuestion = new TagToQuestion();
+            $tagToQuestion->tagId = $tagId;
+            $tagToQuestion->questionId = $questionId;
+            $this->di->get("tagService")->addTagToQuestion($tagToQuestion);
+        }
 
         $this->form->addOutput("Fråga skapad.");
         return true;

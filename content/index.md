@@ -1,7 +1,7 @@
 ---
-title: "My title"
+title: "Qanda - Svaret på din fråga"
 ...
-Home
+Qanda - Ramverk1
 =========================
 
-This is the homepage.
+Har du en fråga så ställ den här och invänta svar.

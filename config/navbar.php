@@ -19,10 +19,10 @@ return [
                 "available" => null
 
             ],
-            "tags" => [
+            "tag" => [
                 "icon"      => "tags",
                 "title"     => "Taggar",
-                "route"     => "tags",
+                "route"     => "tag",
                 "available" => null
 
             ],

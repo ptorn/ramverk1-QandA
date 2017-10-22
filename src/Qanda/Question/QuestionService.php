@@ -41,7 +41,7 @@ class QuestionService
      */
     public function addQuestion($question)
     {
-        $this->queStorage->createQuestion($question);
+        return $this->queStorage->createQuestion($question);
     }
 
 
@@ -71,7 +71,7 @@ class QuestionService
         $user = $this->userService->getCurrentLoggedInUser();
         try {
             if ($user && $user->enabled === 1) {
-                $this->queStorage->deleteQuestion([$questionId]);
+                $this->queStorage->deleteQuestion($questionId);
                 return;
             }
             throw new Exception("Not logged in.", 1);
@@ -139,7 +139,7 @@ class QuestionService
                 $item->userAdmin = true;
             }
             return $item;
-        }, $this->queStorage->readQuestion($id));
+        }, $this->queStorage->readQuestion($id))[0];
     }
 
 

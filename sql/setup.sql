@@ -6,9 +6,9 @@ SET NAMES 'utf8';
 CREATE DATABASE IF NOT EXISTS peto16;
 USE peto16;
 
-DROP TABLE IF EXISTS `QandA_Tags2Question`;
-DROP TABLE IF EXISTS `QandA_Tags`;
-DROP TABLE IF EXISTS `QandA_CommentVote`;
+DROP TABLE IF EXISTS `QandA_Tag2Question`;
+DROP TABLE IF EXISTS `QandA_Tag`;
+DROP TABLE IF EXISTS `QandA_Vote`;
 DROP TABLE IF EXISTS `QandA_Comment`;
 DROP TABLE IF EXISTS `QandA_Awnser`;
 DROP TABLE IF EXISTS `QandA_Question`;
@@ -136,24 +136,25 @@ CREATE TABLE `QandA_Vote`
 
 
 
-CREATE TABLE `QandA_Tags`
+CREATE TABLE `QandA_Tag`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
     `name` VARCHAR(255) NOT NULL,
 
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `name_unique` (`name`)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 
 
-CREATE TABLE `QandA_Tags2Question`
+CREATE TABLE `QandA_Tag2Question`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
     `tagId` INT NOT NULL,
     `questionId` INT NOT NULL,
 
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`tagId`) REFERENCES `QandA_Tags` (`id`),
+    FOREIGN KEY (`tagId`) REFERENCES `QandA_Tag` (`id`),
     FOREIGN KEY (`questionId`) REFERENCES `QandA_Question` (`id`)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 

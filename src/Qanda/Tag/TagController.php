@@ -13,7 +13,8 @@ class TagController implements InjectionAwareInterface
 
     private $pageRender;
     private $view;
-    // private $tagService;
+    private $tagService;
+    private $queService;
 
 
     /**
@@ -26,6 +27,8 @@ class TagController implements InjectionAwareInterface
         $this->pageRender   = $this->di->get("pageRender");
         $this->view         = $this->di->get("view");
         $this->utils        = $this->di->get("utils");
+        $this->tagService   = $this->di->get("tagService");
+        $this->queService   = $this->di->get("questionService");
     }
 
 
@@ -35,10 +38,26 @@ class TagController implements InjectionAwareInterface
         $title = "Lista alla taggar";
 
         $data = [
-            "content" => "",
+            "allTags" => $this->tagService->getAllTags(),
         ];
 
-        $this->view->add("default2/article", $data);
+        $this->view->add("qanda/tag/tags-list", $data);
         $this->pageRender->renderPage(["title" => $title]);
+    }
+
+
+
+    public function getQuestionsToTagPage($tagId)
+    {
+        $questions = [];
+        $tagToQuestions = $this->tagService->getAllQuestionsToTag($tagId);
+        foreach ($tagToQuestions as $item) {
+            $question = $this->queService->getQuestion($item->questionId);
+            $this->view->add("qanda/question/question", ["question" => $question]);
+        }
+        $title = "Lista alla taggar";
+
+        $this->pageRender->renderPage(["title" => $title]);
+
     }
 }

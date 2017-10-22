@@ -45,7 +45,7 @@ class QuestionController implements InjectionAwareInterface
     public function delQuestion($questionId)
     {
         $this->questionService->delQuestion($questionId);
-        $this->utils->redirect("/");
+        $this->utils->redirect("question");
     }
 
 
@@ -116,7 +116,7 @@ class QuestionController implements InjectionAwareInterface
         $question   = $this->questionService->getQuestion($id);
         $awnsers    = $this->questionService->getAwnserByQuestionId($id);
 
-        $this->view->add("qanda/question/question", ["question" => $question[0]], "main");
+        $this->view->add("qanda/question/question", ["question" => $question], "main");
 
         foreach ($awnsers as $awnser) {
             if ($awnser->deleted !== null) {

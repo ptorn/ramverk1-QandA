@@ -31,6 +31,7 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
     {
         $this->setQuestionData($question);
         $this->save();
+        return $this->db->lastInsertId();
     }
 
 
