@@ -1,15 +1,15 @@
 <?php
 
-namespace Peto16\Qanda\HTMLForm;
+namespace Peto16\Qanda\Question\HTMLForm;
 
 use \Anax\HTMLForm\FormModel;
 use \Anax\DI\DIInterface;
-use \Peto16\Qanda\Comment;
+use \Peto16\Qanda\Question\Question;
 
 /**
  * Example of FormModel implementation.
  */
-class UpdateCommentForm extends FormModel
+class UpdateQuestionForm extends FormModel
 {
     /**
      * Constructor injects with DI container.
@@ -19,30 +19,30 @@ class UpdateCommentForm extends FormModel
     public function __construct(DIInterface $di, $id)
     {
         parent::__construct($di);
-        $comment = $di->get("commentService")->getCommentByField("id", $id);
+        $question = $di->get("questionService")->getQuestionByField("id", $id);
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Redigera kommentar",
+                "legend" => "Redigera fråga",
             ],
             [
                 "id" => [
                     "type" => "text",
                     "validation" => ["not_empty"],
                     "readonly" => true,
-                    "value" => $comment->id
+                    "value" => $question->id
                 ],
 
                 "title" => [
                     "label"       => "Titel",
                     "type"        => "text",
-                    "value"       => htmlentities($comment->title)
+                    "value"       => htmlspecialchars($question->title, ENT_QUOTES, 'UTF-8')
                 ],
 
-                "comment" => [
+                "content" => [
                     "label"       => "Kommentar",
                     "type"        => "textarea",
-                    "value"       => htmlentities($comment->comment)
+                    "value"       => htmlspecialchars($question->content)
 
                 ],
 
@@ -66,16 +66,16 @@ class UpdateCommentForm extends FormModel
     public function callbackSubmit()
     {
         // Get values from the submitted form and create comment object.
-        $comment = new Comment();
-        $comment->id = $this->form->value("id");
-        $comment->userId = $this->di->get("userService")->getCurrentLoggedInUser()->id;
-        $comment->title = $this->form->value("title");
-        $comment->comment = $this->form->value("comment");
+        $question = new Question();
+        $question->id = $this->form->value("id");
+        $question->userId = $this->di->get("userService")->getCurrentLoggedInUser()->id;
+        $question->title = $this->form->value("title");
+        $question->content = $this->form->value("content");
 
         // Save to storage
-        $this->di->get("commentService")->editComment($comment);
+        $this->di->get("questionService")->editQuestion($question);
 
-        $this->form->addOutput("Kommentar uppdaterad.");
-        $this->di->get("utils")->redirect("comments");
+        $this->form->addOutput("Fråga uppdaterad.");
+        $this->di->get("utils")->redirect("question");
     }
 }

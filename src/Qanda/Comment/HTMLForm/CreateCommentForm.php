@@ -1,37 +1,47 @@
 <?php
 
-namespace Peto16\Qanda\HTMLForm;
+namespace Peto16\Qanda\Comment\HTMLForm;
 
 use \Anax\HTMLForm\FormModel;
 use \Anax\DI\DIInterface;
-use \Peto16\Qanda\Question;
+use \Peto16\Qanda\Comment\Comment;
 
 /**
  * Example of FormModel implementation.
  */
-class CreateQuestionForm extends FormModel
+class CreateCommentForm extends FormModel
 {
     /**
      * Constructor injects with DI container.
      *
      * @param Anax\DI\DIInterface $di a service container
      */
-    public function __construct(DIInterface $di)
+    public function __construct(DIInterface $di, $questionId, $awnserId)
     {
         parent::__construct($di);
         $this->form->create(
             [
                 "id" => __CLASS__,
-                "legend" => "Lägg till Fråga",
+                "legend" => "Lägg till kommentar",
             ],
             [
+                "questionId" => [
+                    "type"        => "hidden",
+                    "value"       => $questionId
+                ],
+
+                "awnserId" => [
+                    "type"        => "hidden",
+                    "value"       => $awnserId
+                ],
+
                 "title" => [
                     "label"       => "Titel",
                     "type"        => "text",
                 ],
 
                 "content" => [
-                    "label"       => "Fråga",
+                    "label"       => "Kommentar",
                     "type"        => "textarea",
                 ],
 
@@ -55,15 +65,18 @@ class CreateQuestionForm extends FormModel
     public function callbackSubmit()
     {
         // Get values from the submitted form and create comment object.
-        $question = new Question();
-        $question->userId = $this->di->get("userService")->getCurrentLoggedInUser()->id;
-        $question->title = $this->form->value("title");
-        $question->content = $this->form->value("content");
+        $comment = new Comment();
+        $comment->userId = $this->di->get("userService")->getCurrentLoggedInUser()->id;
+        $comment->title = $this->form->value("title");
+        $comment->content = $this->form->value("content");
+        $comment->questionId = $this->form->value("questionId");
+        $comment->awnserId = $this->form->value("awnserId");
+
 
         // Save to database
-        $this->di->get("questionService")->addQuestion($question);
+        $this->di->get("commentService")->addComment($comment);
 
-        $this->form->addOutput("Fråga skapad.");
+        $this->form->addOutput("Kommentar skapad.");
         return true;
     }
 }

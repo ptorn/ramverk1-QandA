@@ -19,6 +19,27 @@ return [
                 "available" => null
 
             ],
+            "tags" => [
+                "icon"      => "tags",
+                "title"     => "Taggar",
+                "route"     => "tags",
+                "available" => null
+
+            ],
+            "users" => [
+                "icon"      => "users",
+                "title"     => "Användare",
+                "route"     => "qanda/user/list",
+                "available" => null
+
+            ],
+            "about" => [
+                "icon"      => "info-circle",
+                "title"     => "Om",
+                "route"     => "about",
+                "available" => null
+
+            ],
             "login" => [
                 "icon"  => "lock",
                 "title"  => "Login",
@@ -26,7 +47,7 @@ return [
                 "available" => null
             ],
             "logout" => [
-                "icon"  => "lock",
+                "icon"  => "user-circle-o",
                 "title"  => "Admin",
                 "route" => "#",
                 "available" => "administrator",
@@ -57,7 +78,7 @@ return [
             "github" => [
                 "icon"      => "github",
                 "title"     => "Github",
-                "route"     => "https://github.com/ptorn/mailchimp",
+                "route"     => "https://github.com/ptorn/ramverk1-QandA",
                 "available" => null,
             ],
             "email" => [

@@ -12,6 +12,7 @@ namespace Anax\View;
 // Gather incoming variables and use default values if not set
 $items = isset($items) ? $items : null;
 
-?><h1>Vad är din fråga?</h1>
+?>
+<!-- <h1>Vad är din fråga?</h1> -->
 
 <?= $form ?>

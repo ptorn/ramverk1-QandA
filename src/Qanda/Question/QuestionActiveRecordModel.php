@@ -1,8 +1,8 @@
 <?php
 
-namespace Peto16\Qanda;
+namespace Peto16\Qanda\Question;
 
-use \Peto16\Qanda\QuestionStorageInterface;
+use \Peto16\Qanda\Question\QuestionStorageInterface;
 use \Anax\Database\ActiveRecordModel;
 
 /**
@@ -79,7 +79,7 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
                             U.enabled AS enabled")
                         ->from($this->tableName . " AS Q")
                         ->join("ramverk1_User AS U", "Q.userId = U.id")
-                        ->where("id = " . $questionId)
+                        ->where("Q.id = " . $questionId)
                         ->orderBy("id")
                         ->execute()
                         ->fetchAllClass(get_class($this));
@@ -144,5 +144,12 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
     public function getQuestionByField($field, $data)
     {
         return $this->find($field, $data);
+    }
+
+
+
+    public function getAllQuestionsByField($field, $data)
+    {
+        return $this->findAllWhere($field, $data);
     }
 }

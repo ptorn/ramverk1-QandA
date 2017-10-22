@@ -1,6 +1,6 @@
 <?php
 
-namespace Peto16\Qanda;
+namespace Peto16\Qanda\Comment;
 
 /**
  * Service class for comments.
@@ -144,5 +144,39 @@ class CommentService
             $comment->{$key} = $commentData->$key;
         }
         return $comment;
+    }
+
+
+
+    public function getComByAwnserId($awnserId)
+    {
+        $user = $this->userService->getCurrentLoggedInUser();
+        $userId = null;
+
+        if ($user) {
+            $userId = $this->userService->getCurrentLoggedInUser()->id;
+        }
+        $comments = $this->comStorage->getAllByAwnserId($awnserId);
+        return array_map(function ($item) use ($userId) {
+            $item->owner = false;
+            $item->userAdmin = false;
+            $item->gravatar = $this->userService->generateGravatarUrl($item->email);
+            if ($item->userId === $userId) {
+                $item->owner = true;
+            }
+            if ($this->userService->validLoggedInAdmin()) {
+                $item->userAdmin = true;
+            }
+            return $item;
+        }, $comments);
+
+    }
+
+
+
+
+    public function getAllCommentsByField($field, $data)
+    {
+        return $this->comStorage->getAllCommentsByField($field, $data);
     }
 }

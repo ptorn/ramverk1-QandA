@@ -1,6 +1,6 @@
 <?php
 
-namespace Peto16\Qanda;
+namespace Peto16\Qanda\Comment;
 
 /**
  * Interface for CommentStorage

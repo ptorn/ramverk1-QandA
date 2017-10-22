@@ -1,10 +1,17 @@
+<?php
+$url = $this->di->get("url");
+?>
 <?php if (isset($result)) : ?>
     <div class="notice"><?= $result ; ?></div>
 <?php endif ; ?>
 <?php foreach ($questions as $question) : ?>
     <?php if ($question->deleted === null) : ?>
         <div class="question-post">
-            <h2><?= htmlentities($question->title); ?></h2>
+            <h2>
+                <a href="<?= $url->create("question/" . $question->id) ?>">
+                    <?= htmlentities($question->title); ?>
+                </a>
+            </h2>
             <div class="question-content">
                 <?= htmlentities($question->content); ?>
             </div>
@@ -16,7 +23,7 @@
             </div>
             <?php if ($question->owner || $question->userAdmin) : ?>
             <div class="edit">
-                <a href="<?= $this->di->get("url")->create("question/edit/" . $question->id); ?>">
+                <a href="<?= $url->create("question/edit/" . $question->id); ?>">
                     Edit
                 </a> -
                 <a href="question/delete/<?= $question->id ?>">

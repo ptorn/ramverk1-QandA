@@ -1,7 +1,7 @@
 <?php
-namespace Peto16\Qanda;
+namespace Peto16\Qanda\Question;
 
-use \Peto16\Qanda\QuestionStorageInterface;
+use \Peto16\Qanda\Question\QuestionStorageInterface;
 
 /**
  * QuestionStorage class

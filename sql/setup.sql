@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS `QandA_Tags2Question`;
 DROP TABLE IF EXISTS `QandA_Tags`;
 DROP TABLE IF EXISTS `QandA_CommentVote`;
 DROP TABLE IF EXISTS `QandA_Comment`;
+DROP TABLE IF EXISTS `QandA_Awnser`;
 DROP TABLE IF EXISTS `QandA_Question`;
 DROP TABLE IF EXISTS `ramverk1_User`;
 
@@ -64,15 +65,40 @@ CREATE TABLE `QandA_Question`
 
 
 
-CREATE TABLE `QandA_Comment`
+CREATE TABLE `QandA_Awnser`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
-    `questionId` INT,
-    `parentComId` INT DEFAULT NULL,
+    `questionId` INT NOT NULL,
     `userId` INT,
     `title` VARCHAR(255) NOT NULL,
     `accept` BOOLEAN DEFAULT FALSE,
-    `comment` TEXT NOT NULL,
+    `content` TEXT NOT NULL,
+
+    -- MySQL version 5.6 and higher
+    -- `published` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -- `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -- `updated` DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+
+    -- MySQL version 5.5 and lower
+    `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated` DATETIME DEFAULT NULL, --  ON UPDATE CURRENT_TIMESTAMP,
+    `deleted` DATETIME DEFAULT NULL,
+
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`userId`) REFERENCES `ramverk1_User` (`id`),
+    FOREIGN KEY (`questionId`) REFERENCES `QandA_Question` (`id`)
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+
+
+
+CREATE TABLE `QandA_Comment`
+(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `questionId` INT NOT NULL,
+    `awnserId` INT NOT NULL,
+    `userId` INT,
+    `title` VARCHAR(255) NOT NULL,
+    `content` TEXT NOT NULL,
 
     -- MySQL version 5.6 and higher
     -- `published` DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -87,23 +113,25 @@ CREATE TABLE `QandA_Comment`
     PRIMARY KEY (`id`),
     FOREIGN KEY (`userId`) REFERENCES `ramverk1_User` (`id`),
     FOREIGN KEY (`questionId`) REFERENCES `QandA_Question` (`id`),
-    FOREIGN KEY (`parentComId`) REFERENCES `QandA_Comment` (`id`)
+    FOREIGN KEY (`awnserId`) REFERENCES `QandA_Awnser` (`id`)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 
 
-CREATE TABLE `QandA_CommentVote`
+CREATE TABLE `QandA_Vote`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
     `questionId` INT DEFAULT NULL,
+    `awnserId` INT DEFAULT NULL,
     `commentId` INT DEFAULT NULL,
     `userId` INT DEFAULT NULL,
     `vote` BOOLEAN DEFAULT NULL,
 
     PRIMARY KEY (`id`),
     FOREIGN KEY (`userId`) REFERENCES `ramverk1_User` (`id`),
-    FOREIGN KEY (`commentId`) REFERENCES `QandA_Comment` (`id`),
-    FOREIGN KEY (`questionId`) REFERENCES `QandA_Question` (`id`)
+    FOREIGN KEY (`questionId`) REFERENCES `QandA_Question` (`id`),
+    FOREIGN KEY (`awnserId`) REFERENCES `QandA_Awnser` (`id`),
+    FOREIGN KEY (`commentId`) REFERENCES `QandA_Comment` (`id`)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 

@@ -1,7 +1,7 @@
 <?php
-namespace Peto16\Qanda;
+namespace Peto16\Qanda\Comment;
 
-use \Peto16\Qanda\CommentStorageInterface;
+use \Peto16\Qanda\Comment\CommentStorageInterface;
 
 /**
  * CommentStorage class

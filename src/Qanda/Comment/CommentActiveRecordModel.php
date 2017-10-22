@@ -1,8 +1,8 @@
 <?php
 
-namespace Peto16\Qanda;
+namespace Peto16\Qanda\Comment;
 
-use \Peto16\Qanda\CommentStorageInterface;
+use \Peto16\Qanda\Comment\CommentStorageInterface;
 use \Anax\Database\ActiveRecordModel;
 
 /**
@@ -14,14 +14,13 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
 
     public $id;
     public $questionId;
-    public $parentComId;
+    public $awnserId;
     public $userId;
     public $title;
-    public $accept;
-    public $comment;
-    public $published;
+    public $content;
     public $created;
     public $updated;
+    public $deleted;
 
 
 
@@ -52,11 +51,10 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
             return $this->db->connect()
                             ->select("C.id AS id,
                                 C.questionId AS questionId,
-                                C.parentComId AS parentComId,
+                                C.awnserId AS awnserId,
                                 U.id AS userId,
                                 C.title AS title,
-                                C.accept AS accept,
-                                C.comment AS comment,
+                                C.content AS content,
                                 C.created AS created,
                                 C.updated AS updated,
                                 C.deleted AS deleted,
@@ -74,11 +72,10 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
         return $this->db->connect()
                         ->select("C.id AS id,
                             C.questionId AS questionId,
-                            C.parentComId AS parentComId,
+                            C.awnserId AS awnserId,
                             U.id AS userId,
                             C.title AS title,
-                            C.accept AS accept,
-                            C.comment AS comment,
+                            C.content AS content,
                             C.created AS created,
                             C.updated AS updated,
                             C.deleted AS deleted,
@@ -154,5 +151,41 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
     public function getCommentByField($field, $data)
     {
         return $this->find($field, $data);
+    }
+
+
+
+    public function getAllByAwnserId($questionId)
+    {
+        $params = is_array($questionId) ? $questionId : [$questionId];
+        return $this->db->connect()
+                        ->select("C.id AS id,
+                            C.questionId AS questionId,
+                            C.awnserId AS awnserId,
+                            U.id AS userId,
+                            C.title AS title,
+                            C.content AS content,
+                            C.created AS created,
+                            C.updated AS updated,
+                            C.deleted AS deleted,
+                            U.email AS email,
+                            U.firstname AS firstname,
+                            U.lastname AS lastname,
+                            U.administrator AS admin,
+                            U.enabled AS enabled")
+                        ->from($this->tableName . " AS C")
+                        ->join("ramverk1_User AS U", "C.userId = U.id")
+                        ->where("questionId = ?")
+                        ->orderBy("id")
+                        ->execute($params)
+                        ->fetchAllClass(get_class($this));
+    }
+
+
+
+
+    public function getAllCommentsByField($field, $data)
+    {
+        return $this->findAllWhere($field, $data);
     }
 }

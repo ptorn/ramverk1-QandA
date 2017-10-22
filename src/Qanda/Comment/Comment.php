@@ -1,6 +1,6 @@
 <?php
 
-namespace Peto16\Qanda;
+namespace Peto16\Qanda\Comment;
 
 /**
  * Comment class
@@ -13,13 +13,11 @@ class Comment
      */
     public $id;
     public $questionId;
-    public $parentComId;
+    public $awnserId;
     public $userId;
     public $title;
-    public $accept;
-    public $comment;
-    public $published;
+    public $content;
     public $created;
     public $updated;
-
+    public $deleted;
 }

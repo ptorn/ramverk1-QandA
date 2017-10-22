@@ -1,6 +1,6 @@
 <?php
 
-namespace Peto16\Qanda;
+namespace Peto16\Qanda\Question;
 
 /**
  * Service class for questions.
@@ -11,7 +11,8 @@ class QuestionService
     private $queStorage;
     private $session;
     private $userService;
-
+    private $comService;
+    private $awnser;
 
 
     /**
@@ -23,6 +24,10 @@ class QuestionService
     {
         $this->queStorage = new QuestionStorage();
         $this->queStorage->setDb($di->get("db"));
+
+        $this->comService = $di->get("commentService");
+        $this->awnserService = $di->get("awnserService");
+
         $this->session = $di->get("session");
         $this->userService = $di->get("userService");
     }
@@ -118,7 +123,25 @@ class QuestionService
      */
     public function getQuestion($id)
     {
-        return $this->queStorage->readQuestion($id);
+        $user = $this->userService->getCurrentLoggedInUser();
+        $userId = null;
+
+        if ($user) {
+            $userId = $this->userService->getCurrentLoggedInUser()->id;
+        }
+
+        return array_map(function ($item) use ($userId) {
+            $item->owner = false;
+            $item->userAdmin = false;
+            $item->gravatar = $this->userService->generateGravatarUrl($item->email);
+            if ($item->userId === $userId) {
+                $item->owner = true;
+            }
+            if ($this->userService->validLoggedInAdmin()) {
+                $item->userAdmin = true;
+            }
+            return $item;
+        }, $this->queStorage->readQuestion($id));
     }
 
 
@@ -144,5 +167,19 @@ class QuestionService
             $question->{$key} = $questionData->$key;
         }
         return $question;
+    }
+
+
+
+    public function getAllQuestionsByField($field, $data)
+    {
+        return $this->queStorage->getAllQuestionsByField($field, $data);
+    }
+
+
+
+    public function getAwnserByQuestionId($id)
+    {
+        return $this->awnserService->getAwnserByQuestionId($id);
     }
 }

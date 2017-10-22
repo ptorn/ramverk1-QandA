@@ -6,7 +6,13 @@ return [
             "info" => "Question",
             "requestMethod" => "get|post",
             "path" => "",
-            "callable" => ["questionController", "getQuestionsPage"],
+            "callable" => ["questionController", "getPostQuestionsPage"],
+        ],
+        [
+            "info" => "Question by id",
+            "requestMethod" => "get|post",
+            "path" => "{id:digit}",
+            "callable" => ["questionController", "getPostQuestionByIdPage"],
         ],
         [
             "info" => "Delete question",
