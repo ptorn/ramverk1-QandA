@@ -1,8 +1,7 @@
 <?php
 namespace Peto16\Qanda\Question;
 
-use \Anax\DI\InjectionAwareInterface;
-use \Anax\DI\InjectionAwareTrait;
+use \Peto16\Qanda\Common\CommonController;
 use \Peto16\Qanda\Question\HTMLForm\CreateQuestionForm;
 use \Peto16\Qanda\Question\HTMLForm\UpdateQuestionForm;
 use \Peto16\Qanda\Awnser\HTMLForm\CreateAwnserForm;
@@ -10,34 +9,8 @@ use \Peto16\Qanda\Awnser\HTMLForm\CreateAwnserForm;
 /**
  * Controller for Question
  */
-class QuestionController implements InjectionAwareInterface
+class QuestionController extends CommonController
 {
-    use InjectionAwareTrait;
-
-    private $questionService;
-    private $pageRender;
-    private $view;
-    private $utils;
-    private $textfilter;
-
-
-
-    /**
-     * Initiate the Controller.
-     *
-     * @return void
-     */
-    public function init()
-    {
-        $this->questionService  = $this->di->get("questionService");
-        $this->pageRender       = $this->di->get("pageRender");
-        $this->view             = $this->di->get("view");
-        $this->utils            = $this->di->get("utils");
-        $this->textfilter       = $this->di->get("textfilter");
-
-    }
-
-
 
     /**
      * Delete a question
@@ -89,11 +62,7 @@ class QuestionController implements InjectionAwareInterface
             if ($question->deleted !== null) {
                 continue;
             }
-            $question->content = $this->textfilter->parse(
-                htmlspecialchars($question->content),
-                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
-            )->text;
-
+            $question->content = $this->utils->escapeParseMarkdown($question->content);
             $question->title        = htmlspecialchars($question->title);
             $question->firstname    = htmlspecialchars($question->firstname);
             $question->lastname     = htmlspecialchars($question->lastname);
@@ -129,11 +98,7 @@ class QuestionController implements InjectionAwareInterface
         $awnsers    = $this->questionService->getAwnserByQuestionId($id);
 
         // Escape question and parse markdown
-        $question->content = $this->textfilter->parse(
-            htmlspecialchars($question->content),
-            ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
-        )->text;
-
+        $question->content = $this->utils->escapeParseMarkdown($question->content);
         $question->title        = htmlspecialchars($question->title);
         $question->firstname    = htmlspecialchars($question->firstname);
         $question->lastname     = htmlspecialchars($question->lastname);
@@ -143,11 +108,8 @@ class QuestionController implements InjectionAwareInterface
             if ($awnser->deleted !== null) {
                 continue;
             }
-            $awnser->content = $this->textfilter->parse(
-                htmlspecialchars($awnser->content),
-                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
-            )->text;
 
+            $awnser->content = $this->utils->escapeParseMarkdown($awnser->content);
             $awnser->title      = htmlspecialchars($awnser->title);
             $awnser->firstname  = htmlspecialchars($awnser->firstname);
             $awnser->lastname   = htmlspecialchars($awnser->lastname);

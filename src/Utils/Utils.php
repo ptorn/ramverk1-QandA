@@ -79,4 +79,14 @@ class Utils implements PageRenderInterface, InjectionAwareInterface
         $view->add("layout/header", [], "header");
         $view->add("block/header-me", [], "header-block");
     }
+
+
+
+    public function escapeParseMarkdown($string)
+    {
+        return $this->di->get("textfilter")->parse(
+            htmlspecialchars($string),
+            ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+        )->text;
+    }
 }

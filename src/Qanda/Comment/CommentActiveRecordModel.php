@@ -155,9 +155,9 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
 
 
 
-    public function getAllByAwnserId($questionId)
+    public function getAllByAwnserId($awnserId)
     {
-        $params = is_array($questionId) ? $questionId : [$questionId];
+        $params = is_array($awnserId) ? $awnserId : [$awnserId];
         return $this->db->connect()
                         ->select("C.id AS id,
                             C.questionId AS questionId,
@@ -175,7 +175,7 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
                             U.enabled AS enabled")
                         ->from($this->tableName . " AS C")
                         ->join("ramverk1_User AS U", "C.userId = U.id")
-                        ->where("questionId = ?")
+                        ->where("awnserId = ?")
                         ->orderBy("id")
                         ->execute($params)
                         ->fetchAllClass(get_class($this));

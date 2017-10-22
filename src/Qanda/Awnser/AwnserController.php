@@ -1,8 +1,7 @@
 <?php
 namespace Peto16\Qanda\Awnser;
 
-use \Anax\DI\InjectionAwareInterface;
-use \Anax\DI\InjectionAwareTrait;
+use \Peto16\Qanda\Common\CommonController;
 use \Peto16\Qanda\Awnser\HTMLForm\CreateAwnserForm;
 use \Peto16\Qanda\Awnser\HTMLForm\UpdateAwnserForm;
 use \Peto16\Qanda\Comment\HTMLForm\CreateCommentForm;
@@ -10,35 +9,8 @@ use \Peto16\Qanda\Comment\HTMLForm\CreateCommentForm;
 /**
  * Controller for Awnser
  */
-class AwnserController implements InjectionAwareInterface
+class AwnserController extends CommonController
 {
-    use InjectionAwareTrait;
-
-    private $awnserService;
-    private $commentService;
-    private $pageRender;
-    private $view;
-    private $utils;
-    private $textfilter;
-
-
-
-    /**
-     * Initiate the Controller.
-     *
-     * @return void
-     */
-    public function init()
-    {
-        $this->awnserService    = $this->di->get("awnserService");
-        $this->commentService   = $this->di->get("commentService");
-        $this->pageRender       = $this->di->get("pageRender");
-        $this->view             = $this->di->get("view");
-        $this->utils            = $this->di->get("utils");
-        $this->textfilter       = $this->di->get("textfilter");
-    }
-
-
 
     /**
      * Delete a awnser
@@ -84,10 +56,7 @@ class AwnserController implements InjectionAwareInterface
         $awnser = $this->awnserService->getAwnser($awnserId)[0];
 
         // Awnser escape and parse markdown
-        $awnser->content = $this->textfilter->parse(
-            htmlspecialchars($awnser->content),
-            ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
-        )->text;
+        $awnser->content = $this->utils->escapeParseMarkdown($awnser->content);
 
         $awnser->title      = htmlspecialchars($awnser->title);
         $awnser->firstname  = htmlspecialchars($awnser->firstname);
@@ -99,17 +68,14 @@ class AwnserController implements InjectionAwareInterface
         ], "main");
 
         // Comments
-        $comments = $this->commentService->getComByAwnserId($questionId);
+        $comments = $this->commentService->getComByAwnserId($awnserId);
         foreach ($comments as $comment) {
             if ($comment->deleted !== null) {
                 continue;
             }
 
             // Parse markdown
-            $comment->content = $this->textfilter->parse(
-                htmlspecialchars($comment->content),
-                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
-            )->text;
+            $comment->content = $this->utils->escapeParseMarkdown($comment->content);
 
             $comment->title     = htmlspecialchars($comment->title);
             $comment->firstname = htmlspecialchars($comment->firstname);
