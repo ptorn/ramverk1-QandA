@@ -19,6 +19,7 @@ class UserController implements InjectionAwareInterface
     private $pageRender;
     private $view;
     private $utils;
+    private $textfilter;
     private $qandaUserService;
 
 
@@ -38,6 +39,8 @@ class UserController implements InjectionAwareInterface
         $this->view             = $this->di->get("view");
 
         $this->utils            = $this->di->get("utils");
+        $this->textfilter       = $this->di->get("textfilter");
+
         $this->qandaUserService = $this->di->get("qandaUserService");
     }
 
@@ -69,6 +72,33 @@ class UserController implements InjectionAwareInterface
         $awnsers    = $this->awnserService->getAllAwnsersByField("userId = ?", $userId);
         $comments   = $this->comService->getAllCommentsByField("userId = ?", $userId);
         $title      = "Information om " . $user->username;
+
+        // Escape and format markdown. Questions
+        foreach ($questions as $question) {
+            $question->content = $this->textfilter->parse(
+                htmlspecialchars($question->content),
+                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+            )->text;
+            $question->title = htmlspecialchars($question->title);
+        }
+
+        // Escape and format markdown. Awnsers
+        foreach ($awnsers as $awnser) {
+            $awnser->content = $this->textfilter->parse(
+                htmlspecialchars($awnser->content),
+                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+            )->text;
+            $awnser->title = htmlspecialchars($awnser->title);
+        }
+
+        // Escape and format markdown. Comments
+        foreach ($comments as $comment) {
+            $comment->content = $this->textfilter->parse(
+                htmlspecialchars($comment->content),
+                ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]
+            )->text;
+            $comment->title = htmlspecialchars($comment->title);
+        }
 
         $data = [
             "user"          => $user,

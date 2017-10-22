@@ -25,7 +25,7 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
     /**
      * Method to Create a awnser in the database.
      *
-     * @param Awnser     Question object
+     * @param Awnser     Awnser object
      * @return void
      */
     public function createAwnser(Awnser $awnser)

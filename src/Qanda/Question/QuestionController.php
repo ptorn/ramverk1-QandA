@@ -155,7 +155,7 @@ class QuestionController implements InjectionAwareInterface
             $this->view->add("qanda/awnser/awnser", [
                 "awnser"        => $awnser,
                 "questionIdUrl" => htmlspecialchars($id)
-            ], "main");
+            ], "awnser");
         }
         $form = new CreateAwnserForm($this->di, $id);
 

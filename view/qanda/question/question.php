@@ -26,4 +26,9 @@ $url = $this->di->get("url");
         </a>
     </div>
     <?php endif; ?>
+    <?php if ($this->regionHasContent("awnser")) : ?>
+    <div class="awnsers">
+        <?php $this->renderRegion("awnser") ?>
+    </div>
+    <?php endif; ?>
 </div>

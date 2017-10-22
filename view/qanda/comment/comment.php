@@ -1,7 +1,7 @@
 <?php
 $url = $this->di->get("url");
 ?>
-<div class="comment-post" style="margin-left:50px;">
+<div class="comment-post">
     <h2><?= $comment->title; ?></h2>
     <div class="awnser-content">
         <?= $comment->content; ?>

@@ -1,7 +1,7 @@
 <?php
 $url = $this->di->get("url");
 ?>
-<div class="awnser-post" style="margin-left:50px;">
+<div class="awnser-post">
     <h2>
         <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnser->id) ?>">
             <?= $awnser->title; ?>
@@ -24,6 +24,11 @@ $url = $this->di->get("url");
         <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/delete/" . $awnser->id) ?>">
             Delete
         </a>
+    </div>
+    <?php endif; ?>
+    <?php if ($this->regionHasContent("comment")) : ?>
+    <div class="comments">
+        <?php $this->renderRegion("comment") ?>
     </div>
     <?php endif; ?>
 </div>

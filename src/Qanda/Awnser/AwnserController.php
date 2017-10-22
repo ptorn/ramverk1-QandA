@@ -120,7 +120,7 @@ class AwnserController implements InjectionAwareInterface
                 "questionIdUrl" => htmlspecialchars($questionId),
                 "awnserIdUrl" => htmlspecialchars($awnserId)
 
-            ], "main");
+            ], "comment");
         }
 
         $form = new CreateCommentForm($this->di, $questionId, $awnserId);
