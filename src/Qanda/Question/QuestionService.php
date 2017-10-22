@@ -12,7 +12,8 @@ class QuestionService
     private $session;
     private $userService;
     private $comService;
-    // private $awnser;
+    private $awnserService;
+
 
 
     /**

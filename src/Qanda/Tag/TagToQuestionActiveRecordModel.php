@@ -44,11 +44,11 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
     /**
      * Dynamicly get tag by field.
      *
-     * @param  string          $field Fieldname to search.
+     * @param  string               $field Fieldname to search.
      *
-     * @param  mixed           $data Data to search for in the field.
+     * @param  mixed                $data Data to search for in the field.
      *
-     * @return Tag             Returns a tag.
+     * @return ActiveRecordModel    Returns a tag.
      */
     public function getTagByField($field, $data)
     {

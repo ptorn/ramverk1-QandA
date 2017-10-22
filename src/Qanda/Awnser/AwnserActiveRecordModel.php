@@ -18,6 +18,7 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
     public $content;
     public $created;
     public $updated;
+    public $deleted;
 
 
 
@@ -135,11 +136,11 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
     /**
      * Dynamicly get awnser by field.
      *
-     * @param  string          $field Fieldname to search.
+     * @param  string               $field Fieldname to search.
      *
-     * @param  mixed           $data Data to search for in the field.
+     * @param  mixed                $data Data to search for in the field.
      *
-     * @return Awnser          Returns a awnser.
+     * @return ActiveRecordModel    Returns a awnser.
      */
     public function getAwnserByField($field, $data)
     {

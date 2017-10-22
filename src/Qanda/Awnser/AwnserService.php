@@ -114,7 +114,7 @@ class AwnserService
      * Get a awnser with a given id.
      *
      * @param int           $id
-     * @return object
+     * @return array
      */
     public function getAwnser($id)
     {

@@ -16,6 +16,7 @@ class CommentController implements InjectionAwareInterface
     private $commentService;
     private $pageRender;
     private $view;
+    private $utils;
 
 
 

@@ -114,7 +114,7 @@ class CommentService
      * Get a comment with a given id.
      *
      * @param int           $id
-     * @return object
+     * @return array
      */
     public function getComment($id)
     {

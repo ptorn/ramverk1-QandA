@@ -17,6 +17,7 @@ class QuestionController implements InjectionAwareInterface
     private $questionService;
     private $pageRender;
     private $view;
+    private $utils;
     private $textfilter;
 
 

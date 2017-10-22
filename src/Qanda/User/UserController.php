@@ -18,6 +18,7 @@ class UserController implements InjectionAwareInterface
     private $awnserService;
     private $pageRender;
     private $view;
+    private $utils;
     private $qandaUserService;
 
 

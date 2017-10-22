@@ -142,11 +142,11 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
     /**
      * Dynamicly get comment by field.
      *
-     * @param  string          $field Fieldname to search.
+     * @param  string               $field Fieldname to search.
      *
-     * @param  mixed           $data Data to search for in the field.
+     * @param  mixed                $data Data to search for in the field.
      *
-     * @return Comment            Returns a user.
+     * @return ActiveRecordModel    Returns a user.
      */
     public function getCommentByField($field, $data)
     {

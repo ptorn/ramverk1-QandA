@@ -18,6 +18,7 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
     public $content;
     public $created;
     public $updated;
+    public $deleted;
 
 
 
@@ -25,7 +26,7 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
      * Method to Create a question in the database.
      *
      * @param Question     Question object
-     * @return void
+     * @return int
      */
     public function createQuestion(Question $question)
     {
@@ -136,11 +137,11 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
     /**
      * Dynamicly get question by field.
      *
-     * @param  string          $field Fieldname to search.
+     * @param  string               $field Fieldname to search.
      *
-     * @param  mixed           $data Data to search for in the field.
+     * @param  mixed                $data Data to search for in the field.
      *
-     * @return Question            Returns a question.
+     * @return ActiveRecordModel    Returns a question.
      */
     public function getQuestionByField($field, $data)
     {

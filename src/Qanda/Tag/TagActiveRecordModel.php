@@ -21,7 +21,7 @@ class TagActiveRecordModel extends ActiveRecordModel implements TagStorageInterf
      * Method to Create a tag in the database.
      *
      * @param Tag     Tag object
-     * @return void
+     * @return int
      */
     public function createTag(Tag $tag)
     {
@@ -32,58 +32,6 @@ class TagActiveRecordModel extends ActiveRecordModel implements TagStorageInterf
         $this->save();
         return $this->db->lastInsertId();
     }
-
-
-
-    // /**
-    //  * Method to read from the database. Nu param returns all unless id given.
-    //  *
-    //  * @param int       $awnserId id for awnser
-    //  * @return array    with awnsers
-    //  */
-    // public function readAwnser($awnserId = null)
-    // {
-    //     $this->id = $awnserId;
-    //     if ($awnserId === null) {
-    //         return $this->db->connect()
-    //                         ->select("Q.id AS id,
-    //                             U.id AS userId,
-    //                             Q.title AS title,
-    //                             Q.content AS content,
-    //                             Q.created AS created,
-    //                             Q.updated AS updated,
-    //                             Q.deleted AS deleted,
-    //                             U.email AS email,
-    //                             U.firstname AS firstname,
-    //                             U.lastname AS lastname,
-    //                             U.administrator AS admin,
-    //                             U.enabled AS enabled")
-    //                         ->from($this->tableName . " AS Q")
-    //                         ->join("ramverk1_User AS U", "Q.userId = U.id")
-    //                         ->orderBy("id")
-    //                         ->execute()
-    //                         ->fetchAllClass(get_class($this));
-    //     }
-    //     return $this->db->connect()
-    //                     ->select("Q.id AS id,
-    //                         U.id AS userId,
-    //                         Q.title AS title,
-    //                         Q.content AS content,
-    //                         Q.created AS created,
-    //                         Q.updated AS updated,
-    //                         Q.deleted AS deleted,
-    //                         U.email AS email,
-    //                         U.firstname AS firstname,
-    //                         U.lastname AS lastname,
-    //                         U.administrator AS admin,
-    //                         U.enabled AS enabled")
-    //                     ->from($this->tableName . " AS Q")
-    //                     ->join("ramverk1_User AS U", "Q.userId = U.id")
-    //                     ->where("Q.id = " . $awnserId)
-    //                     ->orderBy("id")
-    //                     ->execute()
-    //                     ->fetchAllClass(get_class($this));
-    // }
 
 
 
@@ -104,11 +52,11 @@ class TagActiveRecordModel extends ActiveRecordModel implements TagStorageInterf
     /**
      * Dynamicly get tag by field.
      *
-     * @param  string          $field Fieldname to search.
+     * @param  string               $field Fieldname to search.
      *
-     * @param  mixed           $data Data to search for in the field.
+     * @param  mixed                $data Data to search for in the field.
      *
-     * @return Tag             Returns a tag.
+     * @return ActiveRecordModel    Returns a tag.
      */
     public function getTagByField($field, $data)
     {

@@ -13,6 +13,7 @@ class TagController implements InjectionAwareInterface
 
     private $pageRender;
     private $view;
+    private $utils;
     private $tagService;
     private $queService;
 

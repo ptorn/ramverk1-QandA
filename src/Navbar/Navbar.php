@@ -32,7 +32,7 @@ class Navbar implements ConfigureInterface, InjectionAwareInterface
 
     /**
      * Generate menu items and return the menu items array.
-     * @param string        Name of menu. Default is navbar
+     * @param string        String name of menu. Default is navbar
      * @return array        Array containing menu items.
      */
     public function routes($menu = "navbar")
@@ -92,7 +92,7 @@ class Navbar implements ConfigureInterface, InjectionAwareInterface
      * Create a navigation and a view and asign a region
      * @param  string       $template path to template file
      * @param  string       $region   region to be asigned to.
-     * @return region       Name of region created
+     * @return string       Name of region created
      */
     public function createNav($template, $region)
     {

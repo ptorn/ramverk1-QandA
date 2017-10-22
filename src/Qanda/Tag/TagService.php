@@ -9,10 +9,7 @@ class TagService
 {
 
     private $tagStorage;
-    // private $session;
-    // private $userService;
-    // private $comService;
-    // private $awnser;
+    private $tagToQuestionStorage;
 
 
     /**
@@ -26,11 +23,6 @@ class TagService
         $this->tagToQuestionStorage = new TagToQuestionStorage();
         $this->tagStorage->setDb($di->get("db"));
         $this->tagToQuestionStorage->setDb($di->get("db"));
-
-        // $this->comService       = $di->get("commentService");
-        // $this->awnserService    = $di->get("awnserService");
-        // $this->session          = $di->get("session");
-        // $this->userService      = $di->get("userService");
     }
 
 
