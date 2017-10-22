@@ -32,7 +32,7 @@ class TagService
      *
      * @param object    $question Question object.
      *
-     * @return void
+     * @return int
      */
     public function addTag($tag)
     {

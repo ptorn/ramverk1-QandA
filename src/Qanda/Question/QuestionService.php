@@ -38,7 +38,7 @@ class QuestionService
      *
      * @param object    $question Question object.
      *
-     * @return void
+     * @return int
      */
     public function addQuestion($question)
     {
