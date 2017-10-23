@@ -182,6 +182,11 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
 
     public function getAllAwnsersByField($field, $data)
     {
-        return $this->findAllWhere($field, $data);
+        return $this->db->connect()
+                        ->select("*")
+                        ->from($this->tableName)
+                        ->where($field . " AND deleted IS NULL")
+                        ->execute([$data])
+                        ->fetchAllClass(get_class($this));
     }
 }

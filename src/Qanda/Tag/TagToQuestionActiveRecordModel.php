@@ -21,6 +21,10 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
     public function createTagToQuestion(TagToQuestion $tagToQuestion)
     {
         $this->setTagData($tagToQuestion);
+        $storedTag = $this->getTagByField("tagId", $this->tagId);
+        if($storedTag) {
+            return $storedTag->id;
+        }
         $this->save();
         return $this->db->lastInsertId();
     }
@@ -56,15 +60,51 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
     }
 
 
-
-    public function getAllTags()
-    {
-        return $this->findAll();
-    }
+    //
+    // public function getAllTags()
+    // {
+    //     return $this->findAll();
+    // }
 
 
     public function getAllQuestionsToTag($tagId)
     {
-        return $this->findAllWhere("tagId = ?", $tagId);
+        return $this->db->connect()
+                ->select("T2Q.id AS id,
+                    T.id AS tagId,
+                    T2Q.questionId AS questionId,
+                    T.name AS name,
+                    Q.deleted AS deleted")
+                ->from($this->tableName . " AS T2Q")
+                ->join("QandA_Tag AS T", "T2Q.tagId = T.id")
+                ->join("QandA_Question AS Q", "T2Q.questionId = Q.id")
+                ->where("tagId = ? AND deleted IS NULL")
+                ->execute([$tagId])
+                ->fetchAllClass(get_class($this));
+    }
+
+
+    public function getAllTagsToQuestion($questionId)
+    {
+        return $this->db->connect()
+                ->select("T2Q.id AS id,
+                    T2Q.questionId AS questionId,
+                    T.name AS name")
+                ->from($this->tableName . " AS T2Q")
+                ->join("QandA_Tag AS T", "T2Q.tagId = T.id")
+                ->where("questionId = ?", $questionId)
+                ->execute([$questionId])
+                ->fetchAllClass(get_class($this));
+    }
+
+
+
+    public function deleteAllTagsToQuestion($questionId)
+    {
+        return $this->db->connect()
+                ->deleteFrom($this->tableName)
+                ->where("questionId = ?", $questionId)
+                ->execute([$questionId])
+                ->fetchAllClass(get_class($this));
     }
 }

@@ -51,6 +51,7 @@ class TagController implements InjectionAwareInterface
     public function getQuestionsToTagPage($tagId)
     {
         $tagToQuestions = $this->tagService->getAllQuestionsToTag($tagId);
+        var_dump($tagToQuestions);
         $tag = $this->tagService->getTagByField("id", $tagId);
         $this->view->add("qanda/tag/tags-questions", [
             "tag" => $tag

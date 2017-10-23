@@ -5,6 +5,8 @@ namespace Peto16\Qanda\Question\HTMLForm;
 use \Anax\HTMLForm\FormModel;
 use \Anax\DI\DIInterface;
 use \Peto16\Qanda\Question\Question;
+use \Peto16\Qanda\Tag\Tag;
+use \Peto16\Qanda\Tag\TagToQuestion;
 
 /**
  * Example of FormModel implementation.
@@ -20,6 +22,11 @@ class UpdateQuestionForm extends FormModel
     {
         parent::__construct($di);
         $question = $di->get("questionService")->getQuestionByField("id", $id);
+        $tags = $di->get("tagService")->getAllTagsToQuestion($id);
+        $stringTag = "";
+        foreach ($tags as $tag) {
+            $stringTag .= $tag->name . ",";
+        }
         $this->form->create(
             [
                 "id" => __CLASS__,
@@ -46,6 +53,13 @@ class UpdateQuestionForm extends FormModel
 
                 ],
 
+                "tags" => [
+                    "description" => "Kommaseparerad lista",
+                    "label"       => "Taggar",
+                    "type"        => "text",
+                    "value"       => htmlspecialchars(rtrim($stringTag, ","))
+                ],
+
                 "submit" => [
                     "type" => "submit",
                     "value" => "Uppdatera",
@@ -65,6 +79,7 @@ class UpdateQuestionForm extends FormModel
      */
     public function callbackSubmit()
     {
+        $tagService = $this->di->get("tagService");
         $questionStored = $this->di->get("questionService")->getQuestion($this->form->value("id"));
 
         // Get values from the submitted form and create comment object.
@@ -75,9 +90,27 @@ class UpdateQuestionForm extends FormModel
         $question->content = $this->form->value("content");
         $question->created = $questionStored->created;
 
+        $tagService->deleteAllTagsToQuestion($question->id);
 
         // Save to storage
         $this->di->get("questionService")->editQuestion($question);
+
+        $tags = explode(",", $this->form->value("tags"));
+        foreach ($tags as $tag) {
+            if ($tag === "") {
+                continue;
+            }
+            $newTag = new Tag();
+            $newTag->name = trim($tag);
+            $tagId = $tagService->addTag($newTag);
+            $tagToQuestion = new TagToQuestion();
+            $tagToQuestion->tagId = $tagId;
+            $tagToQuestion->questionId = $question->id;
+            $tagService->addTagToQuestion($tagToQuestion);
+        }
+
+
+
 
         $this->form->addOutput("Fråga uppdaterad.");
         $this->di->get("utils")->redirect("question");

@@ -87,12 +87,30 @@ class TagService
 
 
 
+    public function getAllTagsToQuestion($questionId)
+    {
+        return $this->tagToQuestionStorage->getAllTagsToQuestion($questionId);
+    }
+
+
+
+
+    public function deleteAllTagsToQuestion($questionId)
+    {
+        return $this->tagToQuestionStorage->deleteAllTagsToQuestion($questionId);
+    }
+
+
+
     public function getMostPopularTags()
     {
         $allTags = $this->getAllTags();
         $mostPopular = [];
         foreach ($allTags as $tag) {
             $questions = $this->getAllQuestionsToTag($tag->id);
+            if (sizeof($questions) === 0) {
+                continue;
+            }
             $mostPopular[$tag->name] = sizeof($questions);
         }
         arsort($mostPopular, SORT_NUMERIC);
