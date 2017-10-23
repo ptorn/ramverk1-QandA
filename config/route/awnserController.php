@@ -19,6 +19,12 @@ return [
             "requestMethod" => "get|post",
             "path" => "edit/{id:digit}",
             "callable" => ["awnserController", "getPostEditAwnser"],
+        ],
+        [
+            "info" => "Accept awnser post",
+            "requestMethod" => "get",
+            "path" => "{id:digit}/accept",
+            "callable" => ["awnserController", "getAcceptAwnser"],
         ]
     ]
 ];

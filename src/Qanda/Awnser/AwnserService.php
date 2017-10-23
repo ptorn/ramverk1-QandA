@@ -8,6 +8,7 @@ namespace Peto16\Qanda\Awnser;
 class AwnserService
 {
 
+    private $di;
     private $awnserStorage;
     private $session;
     private $userService;
@@ -21,10 +22,11 @@ class AwnserService
      */
     public function __construct($di)
     {
-        $this->awnserStorage = new AwnserStorage();
+        $this->di = $di;
+        $this->awnserStorage    = new AwnserStorage();
         $this->awnserStorage->setDb($di->get("db"));
-        $this->session      = $di->get("session");
-        $this->userService  = $di->get("userService");
+        $this->session          = $di->get("session");
+        $this->userService      = $di->get("userService");
     }
 
 
@@ -95,6 +97,7 @@ class AwnserService
 
         $allAwnsers = $this->awnserStorage->readAwnser();
         return array_map(function ($item) use ($userId) {
+            $item->loggedInUserId = $userId;
             $item->owner = false;
             $item->userAdmin = false;
             $item->gravatar = $this->userService->generateGravatarUrl($item->email);
@@ -136,7 +139,7 @@ class AwnserService
                 $item->userAdmin = true;
             }
             return $item;
-        }, $this->awnserStorage->readAwnser($id));
+        }, $this->awnserStorage->readAwnser($id))[0];
     }
 
 
@@ -194,5 +197,36 @@ class AwnserService
     public function getAllAwnsersByField($field, $data)
     {
         return $this->awnserStorage->getAllAwnsersByField($field, $data);
+    }
+
+
+
+    public function setAcceptedAwnserToQuestion($questionId, $awnserId)
+    {
+        $questionService  = $this->di->get("questionService");
+
+        $awnserData = $this->getAwnser($awnserId);
+        $question   = $questionService->getQuestion($questionId);
+        $user       = $this->userService->getCurrentLoggedInUser();
+        $awnsers    = $questionService->getAwnserByQuestionId($questionId);
+
+        if ($question->userId === $user->id) {
+            foreach ($awnsers as $storedAwnser) {
+                $awnser             = new Awnser();
+                $awnser->id         = $storedAwnser->id;
+                $awnser->userId     = $storedAwnser->userId;
+                $awnser->title      = $storedAwnser->title;
+                $awnser->content    = $storedAwnser->content;
+                $awnser->created    = $storedAwnser->created;
+                $awnser->updated    = $storedAwnser->updated;
+                $awnser->deleted    = $storedAwnser->deleted;
+                $awnser->accept     = false;
+
+                if ($awnserId === $storedAwnser->id) {
+                    $awnser->accept = true;
+                }
+                $this->editAwnser($awnser);
+            }
+        }
     }
 }

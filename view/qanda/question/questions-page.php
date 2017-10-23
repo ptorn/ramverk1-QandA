@@ -19,7 +19,7 @@ $url = $this->di->get("url");
                 <img src="<?= htmlentities($question->gravatar); ?>">
             </div>
             <div class="author">
-                Skriven av: <?= htmlentities($question->firstname) . " " . htmlentities($question->lastname); ?>
+                Skriven avvvvvvvv: <?= htmlentities($question->firstname) . " " . htmlentities($question->lastname); ?>
             </div>
             <?php if ($question->owner || $question->userAdmin) : ?>
             <div class="edit">
@@ -30,6 +30,7 @@ $url = $this->di->get("url");
                     Delete
                 </a>
             </div>
+            <hr>
             <?php endif; ?>
         </div>
     <?php endif; ?>

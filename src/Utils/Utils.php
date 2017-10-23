@@ -73,11 +73,38 @@ class Utils implements PageRenderInterface, InjectionAwareInterface
      */
     public function frontpage()
     {
+        $questionService = $this->di->get("questionService");
+        $qandaUserService = $this->di->get("qandaUserService");
+        $tagService = $this->di->get("tagService");
+
+        $questions = $questionService->getAllQuestions("created DESC", 3);
         $view = $this->di->get("view");
 
+        foreach ($questions as $question) {
+            $view->add("qanda/frontpage/questions", [
+                "question" => $question
+            ], "questions");
+        }
+
+        $tags = $tagService->getMostPopularTags();
+        $tagsData = [];
+        foreach ($tags as $name => $nrQuestions) {
+            $tagsData[$name] = $tagService->getTagByField("name", $name);
+        }
+        $view->add("qanda/frontpage/tags", [
+            "tags" => $tags,
+            "tagsData" => $tagsData
+        ], "sidebar-right");
+
+        $view->add("qanda/frontpage/users", [
+            "users" => $qandaUserService->getMostActiveUsers()
+        ], "sidebar-right");
+
+        // $view->add("qanda/frontpage/users", [], "main");
+        $view->add("qanda/frontpage/layout", [], "under-main");
+
+
         // Add Banner region and block.
-        $view->add("layout/header", [], "header");
-        $view->add("block/header-me", [], "header-block");
     }
 
 

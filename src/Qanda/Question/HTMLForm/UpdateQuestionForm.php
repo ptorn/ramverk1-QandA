@@ -65,12 +65,16 @@ class UpdateQuestionForm extends FormModel
      */
     public function callbackSubmit()
     {
+        $questionStored = $this->di->get("questionService")->getQuestion($this->form->value("id"));
+
         // Get values from the submitted form and create comment object.
         $question = new Question();
         $question->id = $this->form->value("id");
         $question->userId = $this->di->get("userService")->getCurrentLoggedInUser()->id;
         $question->title = $this->form->value("title");
         $question->content = $this->form->value("content");
+        $question->created = $questionStored->created;
+
 
         // Save to storage
         $this->di->get("questionService")->editQuestion($question);

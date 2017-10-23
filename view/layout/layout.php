@@ -23,26 +23,17 @@
         <?php endif; ?>
 
         <div class="container-fluid">
-            <?php if ($this->regionHasContent("header")) : ?>
-            <div class="header">
-                <div class="row-fluid">
-                    <div class="header">
-                        <?php $this->renderRegion("header") ?>
-                    </div>
-                </div>
-            </div>
-            <?php endif; ?>
             <div class="container mt-20">
                 <div class="row-fluid">
                 <?php if ($this->regionHasContent("main")) : ?>
                     <?php if ($this->regionHasContent("sidebar-right")) : ?>
-                        <main id="main" class="col-xs-12 col-md-9 main mb-20">
+                    <main id="main" class="col-xs-12 col-md-9 main mb-20">
                     <?php else : ?>
-                        <main id="main" class="col-xs-12 col-md-12 main mb-20">
+                    <main id="main" class="col-xs-12 col-md-12 main mb-20">
                     <?php endif; ?>
                         <?php $this->renderRegion("main") ?>
-                        <?php if ($this->regionHasContent("main")) : ?>
-                            <?php $this->renderRegion("comments") ?>
+                        <?php if ($this->regionHasContent("under-main")) : ?>
+                        <?php $this->renderRegion("under-main") ?>
                         <?php endif; ?>
                     </main>
                 <?php endif; ?>

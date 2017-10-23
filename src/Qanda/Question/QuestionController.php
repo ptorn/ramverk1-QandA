@@ -116,6 +116,7 @@ class QuestionController extends CommonController
 
             $this->view->add("qanda/awnser/awnser", [
                 "awnser"        => $awnser,
+                "question"      => $question,
                 "questionIdUrl" => htmlspecialchars($id)
             ], "awnser");
         }

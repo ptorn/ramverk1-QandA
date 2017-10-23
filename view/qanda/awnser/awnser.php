@@ -7,6 +7,11 @@ $url = $this->di->get("url");
             <?= $awnser->title; ?>
         </a>
     </h2>
+    <?php if ($awnser->accept) : ?>
+    <div class="alert alert-info">
+        Accepterat svar
+    </div>
+    <?php endif; ?>
     <div class="awnser-content">
         <?= $awnser->content; ?>
     </div>
@@ -16,18 +21,32 @@ $url = $this->di->get("url");
     <div class="author">
         Skriven av: <?= $awnser->firstname . " " . $awnser->lastname; ?>
     </div>
-    <?php if ($awnser->owner || $awnser->userAdmin) : ?>
     <div class="edit">
+        <?php if ($awnser->owner || $awnser->userAdmin) : ?>
         <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/edit/" . $awnser->id); ?>">
-            Edit
+            Redigera
         </a> -
         <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/delete/" . $awnser->id) ?>">
-            Delete
+            Radera
+        </a> -
+        <?php endif; ?>
+        <?php if ($question->owner && !$awnser->accept) : ?>
+        <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnser->id . "/accept"); ?>">
+                Acceptera
+        </a> -
+        <?php endif; ?>
+        <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnser->id . "/voteup"); ?>">
+                Rösta upp
+        </a> -
+        <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnser->id . "/votedown"); ?>">
+                Rösta ner
         </a>
     </div>
-    <?php endif; ?>
+    <hr>
     <?php if ($this->regionHasContent("comment")) : ?>
+    <hr>
     <div class="comments">
+        <h2>Kommentar</h2>
         <?php $this->renderRegion("comment") ?>
     </div>
     <?php endif; ?>

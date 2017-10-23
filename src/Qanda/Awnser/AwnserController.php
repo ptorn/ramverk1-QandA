@@ -52,9 +52,9 @@ class AwnserController extends CommonController
 
     public function getPostAwnserPage($questionId, $awnserId)
     {
-        $title  = "Svar";
-        $awnser = $this->awnserService->getAwnser($awnserId)[0];
-
+        $title      = "Svar";
+        $awnser     = $this->awnserService->getAwnser($awnserId);
+        $question   = $this->questionService->getQuestion($questionId);
         // Awnser escape and parse markdown
         $awnser->content = $this->utils->escapeParseMarkdown($awnser->content);
 
@@ -64,6 +64,7 @@ class AwnserController extends CommonController
 
         $this->view->add("qanda/awnser/awnser", [
             "awnser"        => $awnser,
+            "question"      => $question,
             "questionIdUrl" => htmlspecialchars($questionId),
         ], "main");
 
@@ -101,5 +102,14 @@ class AwnserController extends CommonController
             $this->view->add("qanda/crud/create", $data, "main");
         }
         $this->pageRender->renderPage(["title" => $title]);
+    }
+
+
+
+    public function getAcceptAwnser($questionId, $awnserId)
+    {
+        $this->awnserService->setAcceptedAwnserToQuestion($questionId, $awnserId);
+        $this->utils->redirect("question/" . $questionId);
+
     }
 }

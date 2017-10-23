@@ -43,30 +43,11 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
      * @param int       $commentId id for comment
      * @return array    with comments
      */
-    public function readQuestion($questionId = null)
+    public function readQuestion($orderBy = "id", $questionId = null, $limit = null)
     {
         $this->id = $questionId;
-        if ($questionId === null) {
-            return $this->db->connect()
-                            ->select("Q.id AS id,
-                                U.id AS userId,
-                                Q.title AS title,
-                                Q.content AS content,
-                                Q.created AS created,
-                                Q.updated AS updated,
-                                Q.deleted AS deleted,
-                                U.email AS email,
-                                U.firstname AS firstname,
-                                U.lastname AS lastname,
-                                U.administrator AS admin,
-                                U.enabled AS enabled")
-                            ->from($this->tableName . " AS Q")
-                            ->join("ramverk1_User AS U", "Q.userId = U.id")
-                            ->orderBy("id")
-                            ->execute()
-                            ->fetchAllClass(get_class($this));
-        }
-        return $this->db->connect()
+
+        $dbObj = $this->db->connect()
                         ->select("Q.id AS id,
                             U.id AS userId,
                             Q.title AS title,
@@ -80,11 +61,20 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
                             U.administrator AS admin,
                             U.enabled AS enabled")
                         ->from($this->tableName . " AS Q")
-                        ->join("ramverk1_User AS U", "Q.userId = U.id")
-                        ->where("Q.id = " . $questionId)
-                        ->orderBy("id")
-                        ->execute()
-                        ->fetchAllClass(get_class($this));
+                        ->join("ramverk1_User AS U", "Q.userId = U.id");
+
+        $idWhere = "Q.deleted IS NULL";
+        if ($questionId !== null) {
+            $idWhere = $idWhere . " AND Q.id = " . $questionId;
+        }
+        $dbObj->where($idWhere);
+        $dbObj->orderBy($orderBy);
+        if ($limit !== null) {
+            $dbObj->limit($limit);
+        }
+        return $dbObj->execute()
+                     ->fetchAllClass(get_class($this));
+
     }
 
 

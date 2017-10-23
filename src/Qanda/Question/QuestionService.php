@@ -86,9 +86,11 @@ class QuestionService
     /**
      * Get all questions stored and set if current user logged in is owner.
      *
+     * @param string       $sortBy string
+     *
      * @return array        Array with all questions.
      */
-    public function getAllQuestions()
+    public function getAllQuestions($sortBy = "id", $limit = null)
     {
         $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
@@ -97,7 +99,7 @@ class QuestionService
             $userId = $this->userService->getCurrentLoggedInUser()->id;
         }
 
-        $allQuestions = $this->queStorage->readQuestion();
+        $allQuestions = $this->queStorage->readQuestion($sortBy, null, $limit);
         return array_map(function ($item) use ($userId) {
             $item->owner        = false;
             $item->userAdmin    = false;
@@ -140,7 +142,7 @@ class QuestionService
                 $item->userAdmin = true;
             }
             return $item;
-        }, $this->queStorage->readQuestion($id))[0];
+        }, $this->queStorage->readQuestion("id", $id))[0];
     }
 
 

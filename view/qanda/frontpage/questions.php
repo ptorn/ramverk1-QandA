@@ -1,6 +1,7 @@
 <?php
 $url = $this->di->get("url");
 ?>
+
 <div class="question-post">
     <h2>
         <a href="<?= $url->create("question/" . $question->id) ?>">

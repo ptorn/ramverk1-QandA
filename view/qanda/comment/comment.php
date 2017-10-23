@@ -3,7 +3,7 @@ $url = $this->di->get("url");
 ?>
 <div class="comment-post">
     <h2><?= $comment->title; ?></h2>
-    <div class="awnser-content">
+    <div class="comment-content">
         <?= $comment->content; ?>
     </div>
     <div class="gravatar">
@@ -15,11 +15,12 @@ $url = $this->di->get("url");
     <?php if ($comment->owner || $comment->userAdmin) : ?>
     <div class="edit">
         <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnserIdUrl . "/comment/edit/" . $comment->id); ?>">
-            Edit
+            Redigera
         </a> -
         <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnserIdUrl . "/comment/delete/" . $comment->id) ?>">
-            Delete
+            Radera
         </a>
     </div>
     <?php endif; ?>
 </div>
+<hr>

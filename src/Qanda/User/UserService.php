@@ -13,6 +13,7 @@ class UserService
     private $queService;
     private $awnserService;
     private $comService;
+    private $tagService;
 
 
 
@@ -28,6 +29,7 @@ class UserService
         $this->queService       = $di->get("questionService");
         $this->awnserService    = $di->get("awnserService");
         $this->comService       = $di->get("commentService");
+        $this->tagService       = $di->get("tagService");
 
     }
 
@@ -46,5 +48,20 @@ class UserService
         $nrAwnsers = sizeof($this->awnserService->getAllAwnsersByField("userId = ?", $userId));
         $nrComments = sizeof($this->comService->getAllCommentsByField("userId = ?", $userId));
         return $nrQuestions + $nrAwnsers + $nrComments;
+    }
+
+
+
+    public function getMostActiveUsers()
+    {
+        $allUsers = $this->userService->findAllUsers();
+        $highScore = [];
+        foreach ($allUsers as $user) {
+            if ($user->deleted === null) {
+                $highScore[$this->calculateUserScore($user->id)] = $user;
+            }
+        }
+        krsort($highScore, SORT_NUMERIC);
+        return $highScore;
     }
 }

@@ -16,6 +16,7 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
     public $userId;
     public $title;
     public $content;
+    public $accept;
     public $created;
     public $updated;
     public $deleted;
@@ -51,6 +52,7 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
                                 U.id AS userId,
                                 Q.title AS title,
                                 Q.content AS content,
+                                Q.accept AS accept,
                                 Q.created AS created,
                                 Q.updated AS updated,
                                 Q.deleted AS deleted,
@@ -70,6 +72,7 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
                             U.id AS userId,
                             Q.title AS title,
                             Q.content AS content,
+                            Q.accept AS accept,
                             Q.created AS created,
                             Q.updated AS updated,
                             Q.deleted AS deleted,
