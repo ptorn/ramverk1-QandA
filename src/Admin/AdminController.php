@@ -27,6 +27,6 @@ class AdminController implements InjectionAwareInterface
             ], "main");
             $this->di->get("pageRender")->renderPage(["title" => "Admin Dashboard"]);
         }
-        $this->di->get("utils")->redirect("login");
+        $this->di->get("utils")->redirect("user/login");
     }
 }

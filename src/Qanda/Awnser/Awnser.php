@@ -15,6 +15,8 @@ class Awnser
     public $userId;
     public $title;
     public $content;
+    public $accept;
     public $created;
     public $updated;
+    public $deleted;
 }

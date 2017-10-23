@@ -12,7 +12,6 @@ class AwnserService
     private $awnserStorage;
     private $session;
     private $userService;
-    // private $comService;
 
 
     /**

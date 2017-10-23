@@ -26,13 +26,6 @@ return [
                 "available" => null
 
             ],
-            "users" => [
-                "icon"      => "users",
-                "title"     => "Användare",
-                "route"     => "qanda/user/list",
-                "available" => null
-
-            ],
             "about" => [
                 "icon"      => "info-circle",
                 "title"     => "Om",
@@ -58,6 +51,13 @@ return [
                             "title"     => "Dashboard",
                             "route"     => "admin",
                             "available" => "administrator",
+                        ],
+                        "users" => [
+                            "icon"      => "users",
+                            "title"     => "Qanda - användare",
+                            "route"     => "qanda/user/list",
+                            "available" => null
+
                         ],
                         "logout" => [
                             "icon"      => "sign-out",

@@ -12,6 +12,11 @@ class UserController extends CommonController
 
     public function getPostListUsersPage()
     {
+        $user = $this->di->get("session")->get("user");
+
+        if (!$user) {
+            $this->di->get("utils")->redirect("user/login");
+        }
         $title  = "Lista användare";
         $users  = $this->userService->findAllUsers();
         $form   = new SelectUserForm($this->di);
@@ -69,4 +74,20 @@ class UserController extends CommonController
 
         $this->pageRender->renderPage(["title" => $title]);
     }
+
+
+
+    public function getUserDash()
+    {
+        $user = $this->di->get("session")->get("user");
+
+        if ($user) {
+            if ($user->administrator) {
+                $this->getPostListUsersPage();
+            }
+            $this->getUserPage($user->id);
+        }
+        $this->di->get("utils")->redirect("user/login");
+    }
+
 }
