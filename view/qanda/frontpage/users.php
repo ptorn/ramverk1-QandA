@@ -1,6 +1,5 @@
 <?php
 $url = $this->di->get("url");
-var_dump($users);
 ?>
 <div class="widget most-active">
     <h2>Mest aktiva</h2>
