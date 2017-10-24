@@ -19,5 +19,5 @@ När jag inte pluggar på BTH så jobbar jag heltid och kopplar av till en bra f
 Men mest av allt så ser jag varje dag fram emot att busa med mina pojkar Kaden och Noah som är 6 och 3 år gamla. Dom är solstrålarna som förgyller livet.
 
 <p align="center">
-<img src="../htdocs/image/me.jpg?w=450">
+<img src="../htdocs/image/me.jpg?w=450" class="img-responsive">
 </p>

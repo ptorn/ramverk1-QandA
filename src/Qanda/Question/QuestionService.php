@@ -13,6 +13,7 @@ class QuestionService
     private $userService;
     private $comService;
     private $awnserService;
+    private $voteService;
 
 
 
@@ -29,6 +30,8 @@ class QuestionService
         $this->awnserService    = $di->get("awnserService");
         $this->session          = $di->get("session");
         $this->userService      = $di->get("userService");
+        $this->voteService      = $di->get("voteService");
+
     }
 
 
@@ -172,6 +175,12 @@ class QuestionService
 
 
 
+    /**
+     * Get all questions by field
+     * @param  string   $field field to search
+     * @param  mixed    $data  data to find
+     * @return array    array with all found questions
+     */
     public function getAllQuestionsByField($field, $data)
     {
         return $this->queStorage->getAllQuestionsByField($field, $data);
@@ -179,8 +188,48 @@ class QuestionService
 
 
 
+    /**
+     * Get awnsers by question id
+     * @param  int      $id question id
+     * @return array    array with awnsers based on question id
+     */
     public function getAwnsersByQuestionId($id)
     {
         return $this->awnserService->getAwnsersByQuestionId($id);
+    }
+
+
+
+    /**
+     * Sort questions based on vote
+     * @param  array        $questions array with questions
+     * @param  string       $order     order to sort, default desc
+     * @return array        sorted array of questions
+     */
+    public function sortQuestionsByScore($questions, $order = "desc")
+    {
+        $sortedQuestions  = [];
+        $userScore  = [];
+        $userData   = [];
+        foreach ($questions as $question) {
+            if ($question->deleted === null) {
+                $votesUp = sizeof($this->voteService->getAllVotesUp("questionId", $question->id));
+                $votesDown = sizeof($this->voteService->getAllVotesDown("questionId", $question->id));
+
+                $question->score = $votesUp-$votesDown;
+                $userScore[$question->id] = $question->score;
+                $userData[$question->id] = $question;
+            }
+        }
+        if ($order === "asc") {
+            asort($userScore, SORT_NUMERIC);
+        } else {
+            arsort($userScore, SORT_NUMERIC);
+        }
+
+        foreach (array_keys($userScore) as $key) {
+            $sortedQuestions[] = $userData[$key];
+        }
+        return $sortedQuestions;
     }
 }

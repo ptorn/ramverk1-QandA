@@ -64,8 +64,12 @@ class QuestionController extends CommonController
         $sort = $this->di->get("request")->getGet("sort");
         $direction = $this->di->get("request")->getGet("dir", "desc");
 
-        if (in_array($sort, $validSort) && in_array($direction, $validDir)) {
+        // Sort output based on $validSort
+        if (in_array($sort, $validSort) && in_array($direction, $validDir) && $sort != "vote") {
             $questions = $this->questionService->getAllQuestions($sort, $direction);
+        } elseif (in_array($direction, $validDir) && $sort === "vote") {
+            $questions = $this->questionService->getAllQuestions();
+            $questions = $this->questionService->sortQuestionsByScore($questions, $direction);
         } else {
             $questions = $this->questionService->getAllQuestions();
         }
