@@ -21,6 +21,7 @@ class CommonController implements InjectionAwareInterface
     protected $userService;
     protected $qandaUserService;
     protected $voteService;
+    protected $tagService;
 
 
     /**
@@ -40,5 +41,6 @@ class CommonController implements InjectionAwareInterface
         $this->qandaUserService = $this->di->get("qandaUserService");
         $this->userService      = $this->di->get("userService");
         $this->voteService      = $this->di->get("voteService");
+        $this->tagService   = $this->di->get("tagService");
     }
 }

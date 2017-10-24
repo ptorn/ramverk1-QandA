@@ -1,38 +1,13 @@
 <?php
 namespace Peto16\Qanda\Tag;
 
-use \Anax\DI\InjectionAwareInterface;
-use \Anax\DI\InjectionAwareTrait;
+use \Peto16\Qanda\Common\CommonController;
 
 /**
  * Controller for Tag
  */
-class TagController implements InjectionAwareInterface
+class TagController extends CommonController
 {
-    use InjectionAwareTrait;
-
-    private $pageRender;
-    private $view;
-    private $utils;
-    private $tagService;
-    private $queService;
-
-
-    /**
-     * Initiate the Controller.
-     *
-     * @return void
-     */
-    public function init()
-    {
-        $this->pageRender   = $this->di->get("pageRender");
-        $this->view         = $this->di->get("view");
-        $this->utils        = $this->di->get("utils");
-        $this->tagService   = $this->di->get("tagService");
-        $this->queService   = $this->di->get("questionService");
-    }
-
-
 
     public function getTagsPage()
     {
@@ -59,10 +34,17 @@ class TagController implements InjectionAwareInterface
         ], "main");
 
         foreach ($tagToQuestions as $item) {
-            $question = $this->queService->getQuestion($item->questionId);
+            $question = $this->questionService->getQuestion($item->questionId);
             $this->view->add("qanda/question/question", [
                 "question"      => $question,
-                "loggedInUser"  => $loggedInUser
+                "loggedInUser"  => $loggedInUser,
+                "type"          => "questionId",
+                "id"            => $question->id,
+                "urlReturn"     => $this->di->get("url")->create("question/" . $question->id),
+                "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("questionId", $question->id)),
+                "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id)),
+                "nrAwnsers"     => sizeof($this->questionService->getAwnserByQuestionId($question->id)),
+                "nrComments"    => sizeof($this->commentService->getAllCommentsByField("questionId", $question->id))
             ], "main");
         }
         $title = "Lista alla frågor till taggen";
