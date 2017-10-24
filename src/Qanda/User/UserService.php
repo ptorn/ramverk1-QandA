@@ -84,12 +84,20 @@ class UserService
     {
         $allUsers   = $this->userService->findAllUsers();
         $highScore  = [];
+        $userScore  = [];
+        $userData   = [];
         foreach ($allUsers as $user) {
             if ($user->deleted === null && $user->enabled === 1) {
-                $highScore[$user->username] = $this->calculateUserScore($user->id);
+                $user->score = $this->calculateUserScore($user->id);
+                $userScore[$user->id] = $this->calculateUserScore($user->id);
+                $userData[$user->id] = $user;
             }
         }
-        arsort($highScore, SORT_NUMERIC);
+        arsort($userScore, SORT_NUMERIC);
+
+        foreach ($userScore as $key => $value) {
+            $highScore[] = $userData[$key];
+        }
         return $highScore;
     }
 }
