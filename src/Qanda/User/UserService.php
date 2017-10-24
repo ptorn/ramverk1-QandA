@@ -95,7 +95,7 @@ class UserService
         }
         arsort($userScore, SORT_NUMERIC);
 
-        foreach ($userScore as $key => $value) {
+        foreach (array_keys($userScore) as $key) {
             $highScore[] = $userData[$key];
         }
         return $highScore;
