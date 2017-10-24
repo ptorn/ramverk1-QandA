@@ -35,16 +35,12 @@ $url = $this->di->get("url");
                 Acceptera
         </a> -
         <?php endif; ?>
-        <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnser->id . "/voteup"); ?>">
-                Rösta upp
-        </a> -
-        <a href="<?= $url->create("question/" . $questionIdUrl . "/awnser/" . $awnser->id . "/votedown"); ?>">
-                Rösta ner
-        </a>
     </div>
+
+    <?php include(dirname(__FILE__) . "/../vote/vote.php"); ?>
+
     <hr>
     <?php if ($this->regionHasContent("comment")) : ?>
-    <hr>
     <div class="comments">
         <h2>Kommentar</h2>
         <?php $this->renderRegion("comment") ?>

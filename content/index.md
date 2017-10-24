@@ -1,7 +1,9 @@
 ---
-title: "Qanda - Svaret på din fråga"
+title: "WGTOTW - QandA Vi har svaret på din fråga"
 ...
-Qanda - Ramverk1
+WGTOTW - QandA - Ramverk1
 =========================
 
-Har du en fråga så ställ den här och invänta svar.
+Här har WGTOTW skapat en plats för besökarna att ställa sin frågor.
+
+Högt som lågt. Har du en fråga så kan vi hitta svaret.

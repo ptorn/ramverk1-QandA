@@ -20,7 +20,7 @@ class CommonController implements InjectionAwareInterface
     protected $textfilter;
     protected $userService;
     protected $qandaUserService;
-
+    protected $voteService;
 
 
     /**
@@ -39,6 +39,6 @@ class CommonController implements InjectionAwareInterface
         $this->textfilter       = $this->di->get("textfilter");
         $this->qandaUserService = $this->di->get("qandaUserService");
         $this->userService      = $this->di->get("userService");
-
+        $this->voteService      = $this->di->get("voteService");
     }
 }

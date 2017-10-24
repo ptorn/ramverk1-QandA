@@ -55,6 +55,8 @@ class AwnserController extends CommonController
         $title      = "Svar";
         $awnser     = $this->awnserService->getAwnser($awnserId);
         $question   = $this->questionService->getQuestion($questionId);
+        $loggedInUser   = $this->di->get("userService")->getCurrentLoggedInUser();
+
         // Awnser escape and parse markdown
         $awnser->content = $this->utils->escapeParseMarkdown($awnser->content);
 
@@ -66,6 +68,12 @@ class AwnserController extends CommonController
             "awnser"        => $awnser,
             "question"      => $question,
             "questionIdUrl" => htmlspecialchars($questionId),
+            "loggedInUser"  => $loggedInUser,
+            "type"          => "awnserId",
+            "id"            => $awnser->id,
+            "urlReturn"     => $this->di->get("url")->create("question/" . $questionId . "/awnser/" . $awnser->id),
+            "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("awnserId", $awnser->id)),
+            "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("awnserId", $awnser->id))
         ], "main");
 
         // Comments
@@ -85,8 +93,13 @@ class AwnserController extends CommonController
             $this->di->get("view")->add("qanda/comment/comment", [
                 "comment" => $comment,
                 "questionIdUrl" => htmlspecialchars($questionId),
-                "awnserIdUrl" => htmlspecialchars($awnserId)
-
+                "awnserIdUrl" => htmlspecialchars($awnserId),
+                "loggedInUser"  => $loggedInUser,
+                "type"          => "commentId",
+                "id"            => $comment->id,
+                "urlReturn"     => $this->di->get("url")->create("question/" . $questionId . "/awnser/" . $awnser->id),
+                "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("commentId", $comment->id)),
+                "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("commentId", $comment->id))
             ], "comment");
         }
 

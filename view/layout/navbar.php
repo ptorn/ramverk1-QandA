@@ -14,7 +14,7 @@ $routes = $di->get("navbar")->routes();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<?= url("") ?>">Qanda - Ramverk1</a>
+        <a class="navbar-brand" href="<?= url("") ?>">WGTOTW - QandA</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

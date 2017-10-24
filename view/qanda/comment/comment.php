@@ -22,5 +22,8 @@ $url = $this->di->get("url");
         </a>
     </div>
     <?php endif; ?>
+
+    <?php include(dirname(__FILE__) . "/../vote/vote.php"); ?>
+
 </div>
 <hr>

@@ -14,6 +14,7 @@ class UserService
     private $awnserService;
     private $comService;
     private $tagService;
+    private $voteService;
 
 
 
@@ -30,6 +31,7 @@ class UserService
         $this->awnserService    = $di->get("awnserService");
         $this->comService       = $di->get("commentService");
         $this->tagService       = $di->get("tagService");
+        $this->voteService      = $di->get("voteService");
 
     }
 
@@ -44,10 +46,12 @@ class UserService
 
     public function calculateUserScore($userId)
     {
-        $nrQuestions = sizeof($this->queService->getAllQuestionsByField("userId = ?", $userId));
-        $nrAwnsers = sizeof($this->awnserService->getAllAwnsersByField("userId = ?", $userId));
-        $nrComments = sizeof($this->comService->getAllCommentsByField("userId = ?", $userId));
-        return $nrQuestions + $nrAwnsers + $nrComments;
+        $nrQuestions = sizeof($this->queService->getAllQuestionsByField("userId", $userId));
+        $nrAwnsers = sizeof($this->awnserService->getAllAwnsersByField("userId", $userId));
+        $nrComments = sizeof($this->comService->getAllCommentsByField("userId", $userId));
+        $nrVotes = sizeof($this->voteService->getAllVotesUp("userId", $userId));
+
+        return $nrQuestions + $nrAwnsers + $nrComments + $nrVotes;
     }
 
 

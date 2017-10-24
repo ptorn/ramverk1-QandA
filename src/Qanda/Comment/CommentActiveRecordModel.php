@@ -188,7 +188,7 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
         return $this->db->connect()
                         ->select("*")
                         ->from($this->tableName)
-                        ->where($field . " AND deleted IS NULL")
+                        ->where($field . " = ? AND deleted IS NULL")
                         ->execute([$data])
                         ->fetchAllClass(get_class($this));
     }

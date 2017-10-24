@@ -51,7 +51,8 @@ class TagController implements InjectionAwareInterface
     public function getQuestionsToTagPage($tagId)
     {
         $tagToQuestions = $this->tagService->getAllQuestionsToTag($tagId);
-        var_dump($tagToQuestions);
+        $loggedInUser   = $this->di->get("userService")->getCurrentLoggedInUser();
+
         $tag = $this->tagService->getTagByField("id", $tagId);
         $this->view->add("qanda/tag/tags-questions", [
             "tag" => $tag
@@ -59,7 +60,10 @@ class TagController implements InjectionAwareInterface
 
         foreach ($tagToQuestions as $item) {
             $question = $this->queService->getQuestion($item->questionId);
-            $this->view->add("qanda/question/question", ["question" => $question], "main");
+            $this->view->add("qanda/question/question", [
+                "question"      => $question,
+                "loggedInUser"  => $loggedInUser
+            ], "main");
         }
         $title = "Lista alla frågor till taggen";
 

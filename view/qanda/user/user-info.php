@@ -24,6 +24,7 @@ $url = $this->di->get("url");
             <li class="active"><a data-toggle="tab" href="#questions">Frågor</a></li>
             <li><a data-toggle="tab" href="#awnsers">Svar</a></li>
             <li><a data-toggle="tab" href="#comments">Kommentarer</a></li>
+            <li><a data-toggle="tab" href="#votes">Röster</a></li>
         </ul>
 
         <div class="tab-content">
@@ -72,6 +73,15 @@ $url = $this->di->get("url");
                 </div>
                 <?php endforeach; ?>
             </div>
+            <div id="votes" class="tab-pane fade">
+                <h3>Röster</h3>
+                <div class="vote-item">
+                    <div class="vote-content">
+                        <?= $user->firstname; ?> <?= $user->lastname; ?> har röstat <?= $nrVotes; ?> gånger.
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -85,5 +85,21 @@ return [
                 return $qandaUserService;
             }
         ],
+        "voteController" => [
+            "shared"    => true,
+            "callback"  => function () {
+                $voteController = new \Peto16\Qanda\Vote\VoteController();
+                $voteController->setDI($this);
+                $voteController->init();
+                return $voteController;
+            }
+        ],
+        "voteService" => [
+            "shared"    => true,
+            "callback"  => function () {
+                $voteService = new \Peto16\Qanda\Vote\VoteService($this);
+                return $voteService;
+            }
+        ],
     ],
 ];

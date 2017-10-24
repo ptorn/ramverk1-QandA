@@ -116,11 +116,4 @@ class TagService
         arsort($mostPopular, SORT_NUMERIC);
         return $mostPopular;
     }
-
-
-
-    public function getTagByName($name)
-    {
-
-    }
 }

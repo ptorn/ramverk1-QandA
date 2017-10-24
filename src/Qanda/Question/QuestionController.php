@@ -57,6 +57,8 @@ class QuestionController extends CommonController
      */
     public function getPostQuestionsPage()
     {
+        $loggedInUser   = $this->di->get("userService")->getCurrentLoggedInUser();
+
         $questions = $this->questionService->getAllQuestions();
         foreach ($questions as $question) {
             if ($question->deleted !== null) {
@@ -67,7 +69,16 @@ class QuestionController extends CommonController
             $question->firstname    = htmlspecialchars($question->firstname);
             $question->lastname     = htmlspecialchars($question->lastname);
 
-            $this->view->add("qanda/question/question", ["question" => $question], "main");
+            $this->view->add("qanda/question/question", [
+                "question" => $question,
+                "loggedInUser"  => $loggedInUser,
+                "type"          => "questionId",
+                "id"            => $question->id,
+                "urlReturn"     => $this->di->get("url")->create("question/" . $question->id),
+                "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("questionId", $question->id)),
+                "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id))
+
+            ], "main");
         }
         $title  = "Frågor";
         $form   = new CreateQuestionForm($this->di);
@@ -93,16 +104,25 @@ class QuestionController extends CommonController
      */
     public function getPostQuestionByIdPage($id)
     {
-        $title      = "Frågor";
-        $question   = $this->questionService->getQuestion($id);
-        $awnsers    = $this->questionService->getAwnserByQuestionId($id);
+        $title          = "Frågor";
+        $question       = $this->questionService->getQuestion($id);
+        $awnsers        = $this->questionService->getAwnserByQuestionId($id);
+        $loggedInUser   = $this->di->get("userService")->getCurrentLoggedInUser();
 
         // Escape question and parse markdown
         $question->content = $this->utils->escapeParseMarkdown($question->content);
         $question->title        = htmlspecialchars($question->title);
         $question->firstname    = htmlspecialchars($question->firstname);
         $question->lastname     = htmlspecialchars($question->lastname);
-        $this->view->add("qanda/question/question", ["question" => $question], "main");
+        $this->view->add("qanda/question/question", [
+            "question" => $question,
+            "loggedInUser"  => $loggedInUser,
+            "type"          => "questionId",
+            "id"            => $question->id,
+            "urlReturn"     => $this->di->get("url")->create("question/" . $question->id),
+            "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("questionId", $question->id)),
+            "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id))
+        ], "main");
 
         foreach ($awnsers as $awnser) {
             if ($awnser->deleted !== null) {
@@ -117,7 +137,13 @@ class QuestionController extends CommonController
             $this->view->add("qanda/awnser/awnser", [
                 "awnser"        => $awnser,
                 "question"      => $question,
-                "questionIdUrl" => htmlspecialchars($id)
+                "questionIdUrl" => htmlspecialchars($id),
+                "loggedInUser"  => $loggedInUser,
+                "type"          => "awnserId",
+                "id"            => $awnser->id,
+                "urlReturn"     => $this->di->get("url")->create("question/" . $id),
+                "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("awnserId", $awnser->id)),
+                "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("awnserId", $awnser->id))
             ], "awnser");
         }
         $form = new CreateAwnserForm($this->di, $id);
@@ -128,7 +154,7 @@ class QuestionController extends CommonController
             "form" => $form->getHTML(),
         ];
 
-        if ($this->di->get("userService")->getCurrentLoggedInUser()) {
+        if ($loggedInUser) {
             $this->view->add("qanda/crud/create", $data, "main");
         }
         $this->pageRender->renderPage(["title" => $title]);

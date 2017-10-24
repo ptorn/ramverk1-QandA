@@ -33,6 +33,7 @@
                     <?php endif; ?>
                         <?php $this->renderRegion("main") ?>
                         <?php if ($this->regionHasContent("under-main")) : ?>
+                            <hr>
                         <?php $this->renderRegion("under-main") ?>
                         <?php endif; ?>
                     </main>

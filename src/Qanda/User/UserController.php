@@ -38,9 +38,10 @@ class UserController extends CommonController
     public function getUserPage($userId)
     {
         $user       = $this->userService->getUserByField("id", $userId);
-        $questions  = $this->questionService->getAllQuestionsByField("userId = ?", $userId);
-        $awnsers    = $this->awnserService->getAllAwnsersByField("userId = ?", $userId);
-        $comments   = $this->commentService->getAllCommentsByField("userId = ?", $userId);
+        $questions  = $this->questionService->getAllQuestionsByField("userId", $userId);
+        $awnsers    = $this->awnserService->getAllAwnsersByField("userId", $userId);
+        $comments   = $this->commentService->getAllCommentsByField("userId", $userId);
+        $votes      = $this->voteService->getAllVotesByField("userId", $userId);
         $title      = "Information om " . $user->username;
 
         // Escape and format markdown. Questions
@@ -67,7 +68,8 @@ class UserController extends CommonController
             "gravatarUrl"   => $this->userService->generateGravatarUrl($user->email),
             "questions"     => $this->qandaUserService->filterDeleted($questions),
             "awnsers"       => $this->qandaUserService->filterDeleted($awnsers),
-            "comments"      => $this->qandaUserService->filterDeleted($comments)
+            "comments"      => $this->qandaUserService->filterDeleted($comments),
+            "nrVotes"       => sizeof($votes)
         ];
 
         $this->view->add("qanda/user/user-info", $data);
