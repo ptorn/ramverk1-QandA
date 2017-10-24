@@ -12,4 +12,5 @@ interface QuestionStorageInterface
     public function updateQuestion(Question $question);
     public function readQuestion($questionId = null);
     public function getQuestionByField($field, $data);
+    public function getAllQuestionsByField($field, $data);
 }

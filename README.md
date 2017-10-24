@@ -6,7 +6,7 @@ Ramverk1 - QandA Kmom10 Projektet
 [![Build Status](https://scrutinizer-ci.com/g/ptorn/ramverk1-QandA/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ptorn/ramverk1-QandA/build-status/master)
 
 
-## installation
+## Installation
 
 Installationen kräver att du har composer och git installerat.
 

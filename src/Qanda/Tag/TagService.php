@@ -41,6 +41,10 @@ class TagService
 
 
 
+    /**
+     * Add tag to question
+     * @param TagToQuestion     $tagToQuestion tag to question
+     */
     public function addTagToQuestion($tagToQuestion)
     {
         $this->tagToQuestionStorage->createTagToQuestion($tagToQuestion);
@@ -48,6 +52,10 @@ class TagService
 
 
 
+    /**
+     * Get all tags
+     * @return array        array with all tags
+     */
     public function getAllTags()
     {
         return $this->tagStorage->getAllTags();
@@ -80,6 +88,11 @@ class TagService
 
 
 
+    /**
+     * Get all questions to tag
+     * @param  int      $tagId tag id
+     * @return array    all questions to a tag
+     */
     public function getAllQuestionsToTag($tagId)
     {
         return $this->tagToQuestionStorage->getAllQuestionsToTag($tagId);
@@ -87,6 +100,11 @@ class TagService
 
 
 
+    /**
+     * Get all tags to question
+     * @param  int      $questionId question id.
+     * @return array    array with all tags to a question
+     */
     public function getAllTagsToQuestion($questionId)
     {
         return $this->tagToQuestionStorage->getAllTagsToQuestion($questionId);
@@ -94,7 +112,11 @@ class TagService
 
 
 
-
+    /**
+     * Delete all tags to a question
+     * @param  int      $questionId question id
+     * @return object    result
+     */
     public function deleteAllTagsToQuestion($questionId)
     {
         return $this->tagToQuestionStorage->deleteAllTagsToQuestion($questionId);
@@ -102,6 +124,10 @@ class TagService
 
 
 
+    /**
+     * Get most popular tags.
+     * @return array    array with most popular tags
+     */
     public function getMostPopularTags()
     {
         $allTags = $this->getAllTags();

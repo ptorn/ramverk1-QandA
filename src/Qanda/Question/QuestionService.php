@@ -179,8 +179,8 @@ class QuestionService
 
 
 
-    public function getAwnserByQuestionId($id)
+    public function getAwnsersByQuestionId($id)
     {
-        return $this->awnserService->getAwnserByQuestionId($id);
+        return $this->awnserService->getAwnsersByQuestionId($id);
     }
 }

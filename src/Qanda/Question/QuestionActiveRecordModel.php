@@ -139,6 +139,12 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
 
 
 
+    /**
+     * Get all questions by field.
+     * @param  string   $field field to search in
+     * @param  mixed    $data  data to search for
+     * @return array    array with result
+     */
     public function getAllQuestionsByField($field, $data)
     {
         return $this->db->connect()

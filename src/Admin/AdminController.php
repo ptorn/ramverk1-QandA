@@ -10,6 +10,10 @@ class AdminController implements InjectionAwareInterface
     use InjectionAwareTrait;
 
 
+    /**
+     * Admin dashboard
+     * @return void
+     */
     public function dashboard()
     {
         $userService = $this->di->get("userService");

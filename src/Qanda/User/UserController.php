@@ -10,6 +10,10 @@ use \Peto16\Qanda\User\HTMLForm\SelectUserForm;
 class UserController extends CommonController
 {
 
+    /**
+     * GetPost List Users page
+     * @return void
+     */
     public function getPostListUsersPage()
     {
         $user = $this->di->get("session")->get("user");
@@ -29,12 +33,16 @@ class UserController extends CommonController
         ];
 
         $this->view->add("qanda/user/users-list", $data);
-
         $this->pageRender->renderPage(["title" => $title]);
     }
 
 
 
+    /**
+     * Get user page with info
+     * @param  int          $userId user id
+     * @return void
+     */
     public function getUserPage($userId)
     {
         $user       = $this->userService->getUserByField("id", $userId);
@@ -73,12 +81,15 @@ class UserController extends CommonController
         ];
 
         $this->view->add("qanda/user/user-info", $data);
-
         $this->pageRender->renderPage(["title" => $title]);
     }
 
 
 
+    /**
+     * Get dashboard to list user stats.
+     * @return void
+     */
     public function getUserDash()
     {
         $user = $this->di->get("session")->get("user");

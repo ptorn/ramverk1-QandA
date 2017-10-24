@@ -66,6 +66,13 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
 
 
 
+    /**
+     * Check if user voted.
+     * @param  string $type   [description]
+     * @param  [type] $typeId [description]
+     * @param  [type] $userId [description]
+     * @return [type]         [description]
+     */
     public function checkIfUserVoted($type, $typeId, $userId)
     {
         return $this->db->connect()
@@ -78,6 +85,12 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
 
 
 
+    /**
+     * Get all votes by field
+     * @param  string       $field string with field
+     * @param  mixed        $data  data to search for
+     * @return array        array with all votes
+     */
     public function getAllVotesByField($field, $data)
     {
         return $this->db->connect()
@@ -90,6 +103,12 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
 
 
 
+    /**
+     * Get all votes up
+     * @param  string       $field field to search
+     * @param  mixed        $data  data to find
+     * @return array        array with all votes thumbs up
+     */
     public function getAllVotesUp($field, $data)
     {
         return $this->db->connect()
@@ -102,6 +121,12 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
 
 
 
+    /**
+     * Get all votes down
+     * @param  string       $field field to search
+     * @param  mixed        $data  data to find
+     * @return array        array with all votes thumbs down
+     */
     public function getAllVotesDown($field, $data)
     {
         return $this->db->connect()

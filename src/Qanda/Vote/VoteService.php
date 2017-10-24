@@ -26,6 +26,12 @@ class VoteService
 
 
 
+    /**
+     * Add a vote
+     * @param string    $type   type of item
+     * @param int       $postId id of item
+     * @param bool      $vote   vote
+     */
     public function addVote($type, $postId, $vote)
     {
         $userId = $this->userService->getCurrentLoggedInUser()->id;
@@ -48,14 +54,19 @@ class VoteService
                 break;
         }
         $newVote->vote = (bool)$vote;
-
         $newVote->userId = $userId;
-
         $this->voteStorage->createVote($newVote);
     }
 
 
 
+    /**
+     * Check if user voted
+     * @param string        $type   type of item
+     * @param int           $postId id of item
+     * @param int           $userId user id.
+     * @return boolean      true or false
+     */
     public function checkIfUserVoted($type, $postId, $userId)
     {
         if (empty($this->voteStorage->checkIfUserVoted($type, $postId, $userId))) {
@@ -66,6 +77,12 @@ class VoteService
 
 
 
+    /**
+     * Get all votes by field
+     * @param  string       $field string with field
+     * @param  mixed        $data  data to search for
+     * @return array        array with all votes
+     */
     public function getAllVotesByField($field, $data)
     {
         return $this->voteStorage->getAllVotesByField($field, $data);
@@ -73,12 +90,25 @@ class VoteService
 
 
 
+    /**
+     * Get all votes up
+     * @param  string       $field field to search
+     * @param  mixed        $data  data to find
+     * @return array        array with all votes thumbs up
+     */
     public function getAllVotesUp($field, $data)
     {
         return $this->voteStorage->getAllVotesUp($field, $data);
     }
 
 
+
+    /**
+     * Get all votes down
+     * @param  string       $field field to search
+     * @param  mixed        $data  data to find
+     * @return array        array with all votes thumbs down
+     */
     public function getAllVotesDown($field, $data)
     {
         return $this->voteStorage->getAllVotesDown($field, $data);

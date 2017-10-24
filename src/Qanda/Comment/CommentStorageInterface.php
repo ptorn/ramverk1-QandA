@@ -12,4 +12,6 @@ interface CommentStorageInterface
     public function updateComment(Comment $comment);
     public function readComment($commentId = null);
     public function getCommentByField($field, $data);
+    public function getAllByAwnserId($awnserId);
+    public function getAllCommentsByField($field, $data);
 }

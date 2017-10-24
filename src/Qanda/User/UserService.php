@@ -19,7 +19,7 @@ class UserService
 
 
     /**
-     * Constructor for AwnserService
+     * Constructor for UserService
      *
      * @param object            $di dependency injection.
      */
@@ -32,11 +32,15 @@ class UserService
         $this->comService       = $di->get("commentService");
         $this->tagService       = $di->get("tagService");
         $this->voteService      = $di->get("voteService");
-
     }
 
 
 
+    /**
+     * Filter deleted items.
+     * @param  array       $data array to be filtered
+     * @return array       filtered array
+     */
     public function filterDeleted($data)
     {
         return array_filter($data, function ($item) {
@@ -46,6 +50,11 @@ class UserService
 
 
 
+    /**
+     * Calculate the userscore
+     * @param  int          $userId User id
+     * @return int          total score
+     */
     public function calculateUserScore($userId)
     {
         $questions    = $this->queService->getAllQuestionsByField("userId", $userId);
@@ -67,16 +76,20 @@ class UserService
 
 
 
+    /**
+     * Get most active users
+     * @return array array with most active users
+     */
     public function getMostActiveUsers()
     {
         $allUsers   = $this->userService->findAllUsers();
         $highScore  = [];
         foreach ($allUsers as $user) {
-            if ($user->deleted === null) {
-                $highScore[$this->calculateUserScore($user->id)] = $user;
+            if ($user->deleted === null && $user->enabled === 1) {
+                $highScore[$user->username] = $this->calculateUserScore($user->id);
             }
         }
-        krsort($highScore, SORT_NUMERIC);
+        arsort($highScore, SORT_NUMERIC);
         return $highScore;
     }
 }

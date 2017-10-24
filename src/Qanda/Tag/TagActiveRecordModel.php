@@ -65,6 +65,10 @@ class TagActiveRecordModel extends ActiveRecordModel implements TagStorageInterf
 
 
 
+    /**
+     * Get all tags
+     * @return array        array with all tags.
+     */
     public function getAllTags()
     {
         return $this->findAll();

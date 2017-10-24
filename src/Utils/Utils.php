@@ -106,6 +106,11 @@ class Utils implements PageRenderInterface, InjectionAwareInterface
 
 
 
+    /**
+     * Escape and parse markdown
+     * @param  string           $string string with markdown
+     * @return string           parsed markdown
+     */
     public function escapeParseMarkdown($string)
     {
         return $this->di->get("textfilter")->parse(

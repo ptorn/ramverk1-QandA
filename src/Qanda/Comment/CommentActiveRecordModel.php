@@ -155,6 +155,11 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
 
 
 
+    /**
+     * Get all comments by awnser id
+     * @param  int      $awnserId awnser id
+     * @return array    result with all comments
+     */
     public function getAllByAwnserId($awnserId)
     {
         $params = is_array($awnserId) ? $awnserId : [$awnserId];
@@ -183,6 +188,12 @@ class CommentActiveRecordModel extends ActiveRecordModel implements CommentStora
 
 
 
+    /**
+     * Get all comments by field
+     * @param  string       $field field to search
+     * @param  mixed        $data  data to find
+     * @return array        array with result
+     */
     public function getAllCommentsByField($field, $data)
     {
         return $this->db->connect()

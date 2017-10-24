@@ -30,6 +30,10 @@ class VoteController implements InjectionAwareInterface
 
 
 
+    /**
+     * Post a vote
+     * @return void
+     */
     public function postVote()
     {
         $user = $this->di->get("session")->get("user");
@@ -44,6 +48,5 @@ class VoteController implements InjectionAwareInterface
 
         $this->voteService->addVote($type, $postId, $vote);
         $this->utils->redirect($url);
-
     }
 }

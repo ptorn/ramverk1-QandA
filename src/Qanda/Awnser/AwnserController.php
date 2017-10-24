@@ -125,6 +125,12 @@ class AwnserController extends CommonController
 
 
 
+    /**
+     * Get call to accept awnser
+     * @param  int $questionId question id
+     * @param  int $awnserId   awnser id
+     * @return void
+     */
     public function getAcceptAwnser($questionId, $awnserId)
     {
         $this->awnserService->setAcceptedAwnserToQuestion($questionId, $awnserId);

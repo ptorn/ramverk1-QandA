@@ -48,7 +48,6 @@ class AwnserService
      * Edit awnser
      *
      * @param object    $awnser Awnser object.
-     *
      * @return void
      */
     public function editAwnser($awnser)
@@ -147,9 +146,7 @@ class AwnserService
      * Dynamicly get awnser by propertie.
      *
      * @param string            $field field to search by.
-     *
      * @param array             $data to search for.
-     *
      * @return Awnser
      *
      */
@@ -167,7 +164,13 @@ class AwnserService
     }
 
 
-    public function getAwnserByQuestionId($questionId)
+
+    /**
+     * Get awnsers by question id
+     * @param  int      $questionId question id
+     * @return [type]             [description]
+     */
+    public function getAwnsersByQuestionId($questionId)
     {
         $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
@@ -193,6 +196,12 @@ class AwnserService
 
 
 
+    /**
+     * Get all awnsers by field
+     * @param  string       $field field to search
+     * @param  mixed        $data  data to find
+     * @return array        array with all awnsers
+     */
     public function getAllAwnsersByField($field, $data)
     {
         return $this->awnserStorage->getAllAwnsersByField($field, $data);
@@ -200,13 +209,18 @@ class AwnserService
 
 
 
+    /**
+     * Set accepted awnser to question
+     * @param int $questionId question id
+     * @param int $awnserId   awnser id
+     */
     public function setAcceptedAwnserToQuestion($questionId, $awnserId)
     {
         $questionService  = $this->di->get("questionService");
 
         $question   = $questionService->getQuestion($questionId);
         $user       = $this->userService->getCurrentLoggedInUser();
-        $awnsers    = $questionService->getAwnserByQuestionId($questionId);
+        $awnsers    = $questionService->getAwnsersByQuestionId($questionId);
 
         if ($question->userId === $user->id) {
             foreach ($awnsers as $storedAwnser) {

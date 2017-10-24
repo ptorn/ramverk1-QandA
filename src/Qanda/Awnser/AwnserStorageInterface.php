@@ -12,4 +12,6 @@ interface AwnserStorageInterface
     public function updateAwnser(Awnser $awnser);
     public function readAwnser($awnserId = null);
     public function getAwnserByField($field, $data);
+    public function getAllByQuestionId($questionId);
+    public function getAllAwnsersByField($field, $data);
 }

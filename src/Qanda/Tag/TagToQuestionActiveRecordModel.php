@@ -51,9 +51,7 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
      * Dynamicly get tag by field.
      *
      * @param  string               $field Fieldname to search.
-     *
      * @param  mixed                $data Data to search for in the field.
-     *
      * @return ActiveRecordModel    Returns a tag.
      */
     public function getTagByField($field, $data)
@@ -62,13 +60,12 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
     }
 
 
-    //
-    // public function getAllTags()
-    // {
-    //     return $this->findAll();
-    // }
 
-
+    /**
+     * Get all questions with tag id.
+     * @param  int      $tagId id of tag to use
+     * @return array    array with all questions to tag
+     */
     public function getAllQuestionsToTag($tagId)
     {
         return $this->db->connect()
@@ -86,6 +83,12 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
     }
 
 
+
+    /**
+     * Get all tags to a question
+     * @param  int      $questionId question id
+     * @return array    array with all tags to a question
+     */
     public function getAllTagsToQuestion($questionId)
     {
         return $this->db->connect()
@@ -101,6 +104,11 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
 
 
 
+    /**
+     * Delete all tags to a question.
+     * @param  int      $questionId question id
+     * @return object   with result
+     */
     public function deleteAllTagsToQuestion($questionId)
     {
         return $this->db->connect()

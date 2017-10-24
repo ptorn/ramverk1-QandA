@@ -88,7 +88,7 @@ class QuestionController extends CommonController
                 "urlReturn"     => $this->di->get("url")->create("question/" . $question->id),
                 "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("questionId", $question->id)),
                 "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id)),
-                "nrAwnsers"     => sizeof($this->questionService->getAwnserByQuestionId($question->id)),
+                "nrAwnsers"     => sizeof($this->questionService->getAwnsersByQuestionId($question->id)),
                 "nrComments"    => sizeof($this->commentService->getAllCommentsByField("questionId", $question->id))
             ], "main");
         }
@@ -118,7 +118,7 @@ class QuestionController extends CommonController
     {
         $title          = "Frågor";
         $question       = $this->questionService->getQuestion($id);
-        $awnsers        = $this->questionService->getAwnserByQuestionId($id);
+        $awnsers        = $this->questionService->getAwnsersByQuestionId($id);
         $loggedInUser   = $this->di->get("userService")->getCurrentLoggedInUser();
 
         // Escape question and parse markdown
@@ -134,7 +134,7 @@ class QuestionController extends CommonController
             "urlReturn"     => $this->di->get("url")->create("question/" . $question->id),
             "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("questionId", $question->id)),
             "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id)),
-            "nrAwnsers"     => sizeof($this->questionService->getAwnserByQuestionId($question->id)),
+            "nrAwnsers"     => sizeof($this->questionService->getAwnsersByQuestionId($question->id)),
             "nrComments"    => sizeof($this->commentService->getAllCommentsByField("questionId", $question->id))
         ], "main");
 

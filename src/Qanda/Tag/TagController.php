@@ -9,6 +9,10 @@ use \Peto16\Qanda\Common\CommonController;
 class TagController extends CommonController
 {
 
+    /**
+     * Get tags page
+     * @return void
+     */
     public function getTagsPage()
     {
         $title = "Lista alla taggar";
@@ -23,6 +27,11 @@ class TagController extends CommonController
 
 
 
+    /**
+     * Get questions to tag page
+     * @param  int      $tagId id of tag
+     * @return void
+     */
     public function getQuestionsToTagPage($tagId)
     {
         $tagToQuestions = $this->tagService->getAllQuestionsToTag($tagId);
@@ -43,13 +52,12 @@ class TagController extends CommonController
                 "urlReturn"     => $this->di->get("url")->create("question/" . $question->id),
                 "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("questionId", $question->id)),
                 "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id)),
-                "nrAwnsers"     => sizeof($this->questionService->getAwnserByQuestionId($question->id)),
+                "nrAwnsers"     => sizeof($this->questionService->getAwnsersByQuestionId($question->id)),
                 "nrComments"    => sizeof($this->commentService->getAllCommentsByField("questionId", $question->id))
             ], "main");
         }
         $title = "Lista alla frågor till taggen";
 
         $this->pageRender->renderPage(["title" => $title]);
-
     }
 }
