@@ -43,7 +43,7 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
      * @param int       $commentId id for comment
      * @return array    with comments
      */
-    public function readQuestion($orderBy = "id", $questionId = null, $limit = null)
+    public function readQuestion($orderBy = "id", $questionId = null, $dir = "ASC", $limit = null)
     {
         $this->id = $questionId;
 
@@ -62,13 +62,12 @@ class QuestionActiveRecordModel extends ActiveRecordModel implements QuestionSto
                             U.enabled AS enabled")
                         ->from($this->tableName . " AS Q")
                         ->join("ramverk1_User AS U", "Q.userId = U.id");
-
         $idWhere = "Q.deleted IS NULL";
         if ($questionId !== null) {
             $idWhere = $idWhere . " AND Q.id = " . $questionId;
         }
         $dbObj->where($idWhere);
-        $dbObj->orderBy($orderBy);
+        $dbObj->orderBy($orderBy . " " . $dir);
         if ($limit !== null) {
             $dbObj->limit($limit);
         }

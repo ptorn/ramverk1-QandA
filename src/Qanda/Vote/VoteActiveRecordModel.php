@@ -20,6 +20,7 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
     public $vote;
 
 
+
     /**
      * Method to Create a vote in the database.
      *
@@ -28,9 +29,6 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
      */
     public function createVote(Vote $vote)
     {
-        // if ($this->find("question", $vote->name)) {
-        //     return $this->id;
-        // }
         $this->setVoteData($vote);
         $this->save();
         return $this->db->lastInsertId();
@@ -67,6 +65,7 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
     }
 
 
+
     public function checkIfUserVoted($type, $typeId, $userId)
     {
         return $this->db->connect()
@@ -76,12 +75,9 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
                 ->execute([$typeId, $userId])
                 ->fetchAllClass(get_class($this));
     }
-    // public function getAllTags()
-    // {
-    //     return $this->findAll();
-    // }
-    //
-    //
+
+
+
     public function getAllVotesByField($field, $data)
     {
         return $this->db->connect()
@@ -103,6 +99,8 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
                 ->execute([$data])
                 ->fetchAllClass(get_class($this));
     }
+
+
 
     public function getAllVotesDown($field, $data)
     {

@@ -90,7 +90,7 @@ class QuestionService
      *
      * @return array        Array with all questions.
      */
-    public function getAllQuestions($sortBy = "id", $limit = null)
+    public function getAllQuestions($sortBy = "id", $dir = "ASC", $limit = null)
     {
         $user   = $this->userService->getCurrentLoggedInUser();
         $userId = null;
@@ -99,7 +99,7 @@ class QuestionService
             $userId = $this->userService->getCurrentLoggedInUser()->id;
         }
 
-        $allQuestions = $this->queStorage->readQuestion($sortBy, null, $limit);
+        $allQuestions = $this->queStorage->readQuestion($sortBy, null, $dir, $limit);
         return array_map(function ($item) use ($userId) {
             $item->owner        = false;
             $item->userAdmin    = false;

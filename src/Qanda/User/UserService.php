@@ -35,6 +35,8 @@ class UserService
 
     }
 
+
+
     public function filterDeleted($data)
     {
         return array_filter($data, function ($item) {
@@ -46,20 +48,29 @@ class UserService
 
     public function calculateUserScore($userId)
     {
-        $nrQuestions = sizeof($this->queService->getAllQuestionsByField("userId", $userId));
-        $nrAwnsers = sizeof($this->awnserService->getAllAwnsersByField("userId", $userId));
-        $nrComments = sizeof($this->comService->getAllCommentsByField("userId", $userId));
-        $nrVotes = sizeof($this->voteService->getAllVotesUp("userId", $userId));
+        $questions    = $this->queService->getAllQuestionsByField("userId", $userId);
+        $awnsers      = $this->awnserService->getAllAwnsersByField("userId", $userId);
+        $comments     = $this->comService->getAllCommentsByField("userId", $userId);
 
-        return $nrQuestions + $nrAwnsers + $nrComments + $nrVotes;
+        $nrVotes        = 0;
+        foreach ($questions as $question) {
+            $nrVotes += sizeof($this->voteService->getAllVotesUp("questionId", $question->id));
+        }
+        foreach ($awnsers as $awnser) {
+            $nrVotes += sizeof($this->voteService->getAllVotesUp("awnserId", $awnser->id));
+        }
+        foreach ($comments as $comment) {
+            $nrVotes += sizeof($this->voteService->getAllVotesUp("commentId", $comment->id));
+        }
+        return sizeof($questions) + sizeof($awnsers) + sizeof($comments) + $nrVotes;
     }
 
 
 
     public function getMostActiveUsers()
     {
-        $allUsers = $this->userService->findAllUsers();
-        $highScore = [];
+        $allUsers   = $this->userService->findAllUsers();
+        $highScore  = [];
         foreach ($allUsers as $user) {
             if ($user->deleted === null) {
                 $highScore[$this->calculateUserScore($user->id)] = $user;

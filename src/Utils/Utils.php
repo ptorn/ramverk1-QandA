@@ -77,7 +77,7 @@ class Utils implements PageRenderInterface, InjectionAwareInterface
         $qandaUserService = $this->di->get("qandaUserService");
         $tagService = $this->di->get("tagService");
 
-        $questions = $questionService->getAllQuestions("created DESC", 3);
+        $questions = $questionService->getAllQuestions("created", "DESC", 3);
         $view = $this->di->get("view");
 
         foreach ($questions as $question) {
@@ -102,9 +102,6 @@ class Utils implements PageRenderInterface, InjectionAwareInterface
 
         // $view->add("qanda/frontpage/users", [], "main");
         $view->add("qanda/frontpage/layout", [], "under-main");
-
-
-        // Add Banner region and block.
     }
 
 

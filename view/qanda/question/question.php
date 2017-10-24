@@ -4,9 +4,10 @@ $url = $this->di->get("url");
 <div class="question-post">
     <h2>
         <a href="<?= $url->create("question/" . $question->id) ?>">
-            <?= $question->title; ?> (Rang)
+            <?= $question->title; ?>
         </a>
     </h2>
+
     <div class="question-content">
         <?= $question->content; ?>
     </div>
@@ -14,7 +15,7 @@ $url = $this->di->get("url");
         <img src="<?= $question->gravatar; ?>">
     </div>
     <div class="author">
-        Skriven av: <?= $question->firstname . " " . $question->lastname; ?>
+        Skriven av: <?= $question->firstname . " " . $question->lastname; ?> Skapad: <?= $question->created ?>
     </div>
     <?php if ($question->owner || $question->userAdmin) : ?>
     <div class="edit">
@@ -28,7 +29,7 @@ $url = $this->di->get("url");
     <?php endif; ?>
 
     <?php include(dirname(__FILE__) . "/../vote/vote.php"); ?>
-    
+
     <hr>
     <?php if ($this->regionHasContent("awnser")) : ?>
     <div class="awnsers">

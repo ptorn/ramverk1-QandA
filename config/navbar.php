@@ -54,7 +54,7 @@ return [
                         ],
                         "users" => [
                             "icon"      => "users",
-                            "title"     => "Qanda - användare",
+                            "title"     => "QandA - resultat",
                             "route"     => "qanda/user/list",
                             "available" => null
 

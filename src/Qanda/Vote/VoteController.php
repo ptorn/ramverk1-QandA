@@ -31,7 +31,7 @@ class VoteController implements InjectionAwareInterface
 
 
 
-    public function getVote()
+    public function postVote()
     {
         $user = $this->di->get("session")->get("user");
 

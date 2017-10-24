@@ -50,6 +50,12 @@ class AwnserController extends CommonController
 
 
 
+    /**
+     * Get and Post with awnsers and awnserform
+     * @param  int      $questionId question id.
+     * @param  int      $awnserId   [description]
+     * @return void             [description]
+     */
     public function getPostAwnserPage($questionId, $awnserId)
     {
         $title      = "Svar";

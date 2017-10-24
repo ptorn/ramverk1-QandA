@@ -6,7 +6,7 @@ return [
             "info" => "Vote Up",
             "requestMethod" => "post",
             "path" => "",
-            "callable" => ["voteController", "getVote"],
+            "callable" => ["voteController", "postVote"],
         ],
     ]
 ];

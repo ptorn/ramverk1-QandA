@@ -58,8 +58,19 @@ class QuestionController extends CommonController
     public function getPostQuestionsPage()
     {
         $loggedInUser   = $this->di->get("userService")->getCurrentLoggedInUser();
+        $validSort = ["created", "vote"];
+        $validDir = ["asc", "desc"];
 
-        $questions = $this->questionService->getAllQuestions();
+        $sort = $this->di->get("request")->getGet("sort");
+        $direction = $this->di->get("request")->getGet("dir", "desc");
+
+        if (in_array($sort, $validSort) && in_array($direction, $validDir)) {
+            $questions = $this->questionService->getAllQuestions($sort, $direction);
+        } else {
+            $questions = $this->questionService->getAllQuestions();
+        }
+        $this->view->add("qanda/question/question-top", [], "main");
+
         foreach ($questions as $question) {
             if ($question->deleted !== null) {
                 continue;

@@ -126,6 +126,8 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
      * Dynamicly set awnser properties to its value.
      *
      * @param array            $awnserData Key, value array.
+     *
+     * @return void
      */
     public function setAwnserData($awnserData)
     {
@@ -152,6 +154,11 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
 
 
 
+    /**
+     * Get All Awnsers by question id
+     * @param  int              $questionId question id
+     * @return array            Array with all awnsers
+     */
     public function getAllByQuestionId($questionId)
     {
         $params = is_array($questionId) ? $questionId : [$questionId];
@@ -180,6 +187,12 @@ class AwnserActiveRecordModel extends ActiveRecordModel implements AwnserStorage
 
 
 
+    /**
+     * Get all awnsers by given field and data.
+     * @param  string       $field field in table
+     * @param  mixed        $data  data to search by
+     * @return array        array with given awnsers.
+     */
     public function getAllAwnsersByField($field, $data)
     {
         return $this->db->connect()
