@@ -29,7 +29,8 @@ $url = $this->di->get("url");
     <?php endif; ?>
 
     <?php include(dirname(__FILE__) . "/../vote/vote.php"); ?>
-
+    <span class="label label-default"><?= $nrAwnsers ?> Svar</span>
+    <span class="label label-default"><?= $nrComments ?> <?= $nrComments === 1 ? "Kommentar" : "Kommentarer"?></span>
     <hr>
     <?php if ($this->regionHasContent("awnser")) : ?>
     <div class="awnsers">

@@ -14,7 +14,7 @@ $nrVotesDown = isset($nrVotesDown) ? $nrVotesDown : 0;
                 <i class="fa fa-thumbs-up" aria-hidden="true"></i> (<?= $nrVotesUp ?>)
             </button>
         </form>
-        <form method="post" action="<?= $url->create("qanda/vote") ?>" class="col-md-1 ml-0 pl-0 mr-0 pr-0">
+        <form method="post" action="<?= $url->create("qanda/vote") ?>" class="col-md-11 ml-0 pl-0 mr-0 pr-0">
             <input type="hidden" name="type" value="<?= $type ?>">
             <input type="hidden" name="id" value="<?= $id ?>">
             <input type="hidden" name="vote" value="0">
@@ -23,8 +23,9 @@ $nrVotesDown = isset($nrVotesDown) ? $nrVotesDown : 0;
                 <i class="fa fa-thumbs-down" aria-hidden="true"></i> (<?= $nrVotesDown ?>)
             </button>
         </form>
-        <div class="score" class="col-md-10" style="height: 60px;">
-            Rang: <?= $nrVotesUp - $nrVotesDown ?>
-        </div>
+
     </div>
+</div>
+<div class="score" class="col-md-10">
+    <span class="label label-info">Rang: <?= $nrVotesUp - $nrVotesDown ?></span>
 </div>

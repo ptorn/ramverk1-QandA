@@ -87,8 +87,9 @@ class QuestionController extends CommonController
                 "id"            => $question->id,
                 "urlReturn"     => $this->di->get("url")->create("question/" . $question->id),
                 "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("questionId", $question->id)),
-                "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id))
-
+                "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id)),
+                "nrAwnsers"     => sizeof($this->questionService->getAwnserByQuestionId($question->id)),
+                "nrComments"    => sizeof($this->commentService->getAllCommentsByField("questionId", $question->id))
             ], "main");
         }
         $title  = "Frågor";
@@ -132,7 +133,9 @@ class QuestionController extends CommonController
             "id"            => $question->id,
             "urlReturn"     => $this->di->get("url")->create("question/" . $question->id),
             "nrVotesUp"     => sizeof($this->voteService->getAllVotesUp("questionId", $question->id)),
-            "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id))
+            "nrVotesDown"   => sizeof($this->voteService->getAllVotesDown("questionId", $question->id)),
+            "nrAwnsers"     => sizeof($this->questionService->getAwnserByQuestionId($question->id)),
+            "nrComments"    => sizeof($this->commentService->getAllCommentsByField("questionId", $question->id))
         ], "main");
 
         foreach ($awnsers as $awnser) {
