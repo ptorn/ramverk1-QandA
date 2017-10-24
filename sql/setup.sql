@@ -147,7 +147,7 @@ CREATE TABLE `QandA_Tag`
 
 
 
-CREATE TABLE `QandA_Tag2Question`
+CREATE TABLE `QandA_TagToQuestion`
 (
     `id` INT AUTO_INCREMENT NOT NULL,
     `tagId` INT NOT NULL,
@@ -157,7 +157,3 @@ CREATE TABLE `QandA_Tag2Question`
     FOREIGN KEY (`tagId`) REFERENCES `QandA_Tag` (`id`),
     FOREIGN KEY (`questionId`) REFERENCES `QandA_Question` (`id`)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
-
-
-INSERT INTO ramverk1_Comment (userId, title, comment) VALUES (1, "Weeeeeeee", "Hooooo");
-INSERT INTO ramverk1_Comment (userId, title, comment) VALUES (2, "Här testar Doe", "Hej Hej en rolig kommentar från John Doe.");

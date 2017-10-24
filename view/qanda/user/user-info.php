@@ -77,7 +77,7 @@ $url = $this->di->get("url");
                 <h3>Röster</h3>
                 <div class="vote-item">
                     <div class="vote-content">
-                        <?= $user->firstname; ?> <?= $user->lastname; ?> har röstat <?= $nrVotes; ?> gånger.
+                        <?= $user->firstname ?> <?= $user->lastname ?> har röstat <?= $nrVotes ?> gånger.
                     </div>
                 </div>
             </div>

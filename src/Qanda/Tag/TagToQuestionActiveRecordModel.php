@@ -21,9 +21,11 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
     public function createTagToQuestion(TagToQuestion $tagToQuestion)
     {
         $this->setTagData($tagToQuestion);
-        $storedTag = $this->getTagByField("tagId", $this->tagId);
-        if($storedTag) {
-            return $storedTag->id;
+        $storedTags = $this->getAllTagsToQuestion($tagToQuestion->questionId);
+        foreach ($storedTags as $tag) {
+            if ($tag->tagId === $tagToQuestion->tagId) {
+                return $tag->tagId;
+            }
         }
         $this->save();
         return $this->db->lastInsertId();
@@ -87,12 +89,12 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
     public function getAllTagsToQuestion($questionId)
     {
         return $this->db->connect()
-                ->select("T2Q.id AS id,
+                ->select("T2Q.tagId AS tagId,
                     T2Q.questionId AS questionId,
                     T.name AS name")
                 ->from($this->tableName . " AS T2Q")
                 ->join("QandA_Tag AS T", "T2Q.tagId = T.id")
-                ->where("questionId = ?", $questionId)
+                ->where("questionId = ?")
                 ->execute([$questionId])
                 ->fetchAllClass(get_class($this));
     }
@@ -103,7 +105,7 @@ class TagToQuestionActiveRecordModel extends ActiveRecordModel implements TagToQ
     {
         return $this->db->connect()
                 ->deleteFrom($this->tableName)
-                ->where("questionId = ?", $questionId)
+                ->where("questionId = ?")
                 ->execute([$questionId])
                 ->fetchAllClass(get_class($this));
     }

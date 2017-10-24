@@ -91,5 +91,4 @@ class UserController extends CommonController
         }
         $this->di->get("utils")->redirect("user/login");
     }
-
 }

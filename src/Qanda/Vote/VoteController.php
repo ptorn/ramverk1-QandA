@@ -8,7 +8,6 @@ use \Anax\DI\InjectionAwareTrait;
  * Controller for Vote
  */
 class VoteController implements InjectionAwareInterface
-
 {
     use InjectionAwareTrait;
 

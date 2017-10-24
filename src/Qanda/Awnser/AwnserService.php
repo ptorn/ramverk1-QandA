@@ -204,7 +204,6 @@ class AwnserService
     {
         $questionService  = $this->di->get("questionService");
 
-        $awnserData = $this->getAwnser($awnserId);
         $question   = $questionService->getQuestion($questionId);
         $user       = $this->userService->getCurrentLoggedInUser();
         $awnsers    = $questionService->getAwnserByQuestionId($questionId);

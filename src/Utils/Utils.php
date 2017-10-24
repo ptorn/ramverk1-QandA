@@ -88,7 +88,7 @@ class Utils implements PageRenderInterface, InjectionAwareInterface
 
         $tags = $tagService->getMostPopularTags();
         $tagsData = [];
-        foreach ($tags as $name => $nrQuestions) {
+        foreach (array_keys($tags) as $name) {
             $tagsData[$name] = $tagService->getTagByField("name", $name);
         }
         $view->add("qanda/frontpage/tags", [

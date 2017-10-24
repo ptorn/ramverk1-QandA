@@ -58,7 +58,7 @@ class VoteService
 
     public function checkIfUserVoted($type, $postId, $userId)
     {
-        if(empty($this->voteStorage->checkIfUserVoted($type, $postId, $userId))) {
+        if (empty($this->voteStorage->checkIfUserVoted($type, $postId, $userId))) {
             return false;
         }
         return true;
