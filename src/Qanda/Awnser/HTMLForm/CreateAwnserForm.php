@@ -34,11 +34,13 @@ class CreateAwnserForm extends FormModel
                 "title" => [
                     "label"       => "Titel",
                     "type"        => "text",
+                    "required"    => "required"
                 ],
 
                 "content" => [
                     "label"       => "Svar",
                     "type"        => "textarea",
+                    "required"    => "required"
                 ],
 
                 "submit" => [

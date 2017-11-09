@@ -37,6 +37,24 @@ class VoteActiveRecordModel extends ActiveRecordModel implements VoteStorageInte
 
 
     /**
+     * Method to Create a vote in the database.
+     *
+     * @param Vote     Vote object
+     * @return int
+     */
+    public function changeVote($type, $postId, $userId, $vote)
+    {
+        return $this->db->connect()
+                ->update($this->tableName, ["vote"], $vote)
+                ->where($type . " = ? AND userId = ?")
+                ->execute([$postId, $userId])
+                ->fetchAllClass(get_class($this));
+    }
+
+
+
+
+    /**
      * Dynamicly set vote properties to its value.
      *
      * @param array            $voteData Key, value array.

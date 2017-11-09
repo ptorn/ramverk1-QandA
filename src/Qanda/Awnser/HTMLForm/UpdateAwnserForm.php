@@ -42,13 +42,14 @@ class UpdateAwnserForm extends FormModel
                     "label"       => "Titel",
                     "type"        => "text",
                     "value"       => htmlspecialchars($awnser->title)
+                    "required"    => "required"
                 ],
 
                 "content" => [
                     "label"       => "Kommentar",
                     "type"        => "textarea",
                     "value"       => htmlspecialchars($awnser->content)
-
+                    "required"    => "required"
                 ],
 
                 "submit" => [

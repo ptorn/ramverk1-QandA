@@ -8,6 +8,7 @@ namespace Peto16\Qanda\Vote;
 interface VoteStorageInterface
 {
     public function createVote(Vote $vote);
+    public function changeVote($type, $postId, $userId, $vote);
     public function getAllVotesUp($field, $data);
     public function getAllVotesDown($field, $data);
     public function getVoteByField($field, $data);

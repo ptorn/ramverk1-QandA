@@ -30,11 +30,13 @@ class CreateQuestionForm extends FormModel
                 "title" => [
                     "label"       => "Titel",
                     "type"        => "text",
+                    "required"    => "required"
                 ],
 
                 "content" => [
                     "label"       => "Fråga",
                     "type"        => "textarea",
+                    "required"    => "required"
                 ],
 
                 "tags" => [

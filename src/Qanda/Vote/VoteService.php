@@ -36,7 +36,8 @@ class VoteService
     {
         $userId = $this->userService->getCurrentLoggedInUser()->id;
         if ($this->checkIfUserVoted($type, $postId, $userId)) {
-            throw new Exception("User has already voted", 1);
+            $this->voteStorage->changeVote($type, $postId, $userId, $vote);
+            return;
         }
 
         $newVote = new Vote();
